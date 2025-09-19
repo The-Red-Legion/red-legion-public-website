@@ -1,0 +1,25 @@
+# Dependencies
+/vendor/
+
+# Environment variables
+.env
+
+# Twig cache
+/app/cache/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Composer
+composer.phar
+composer.lock
