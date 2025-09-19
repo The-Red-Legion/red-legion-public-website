@@ -40,12 +40,12 @@ jobs:
             python3 -m pip install ansible
           fi
 
-          # Export database variables for Ansible
-          export DB_HOST='${{ secrets.DB_HOST }}'
-          export DB_PORT='${{ secrets.DB_PORT }}'
-          export DB_NAME='${{ secrets.DB_NAME }}'
-          export DB_USER='${{ secrets.DB_USER }}'
-          export DB_PASS='${{ secrets.DB_PASS }}'
+          # Set default database variables (will be configured later)
+          export DB_HOST='localhost'
+          export DB_PORT='3306'
+          export DB_NAME='red_legion_website'
+          export DB_USER='website_user'
+          export DB_PASS='temp_password_to_be_changed'
 
           # Run Ansible playbook locally on the server
           cd ansible
