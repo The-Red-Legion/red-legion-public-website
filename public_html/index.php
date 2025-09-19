@@ -17,7 +17,7 @@ include __DIR__ . '/../app/partials/head-includes.html';
         <!-- Main CSS -->
         <link href="assets/css/theme.min.css" rel="stylesheet">
 
-        <title>Assan 4</title>
+        <title>The Red Legion</title>
     </head>
 
     <body>
@@ -30,8 +30,8 @@ include __DIR__ . '/../app/partials/head-includes.html';
             <nav class="navbar navbar-expand-lg navbar-light navbar-link-white">
                 <div class="container position-relative">
                     <a class="navbar-brand" href="index.html">
-                        <img src="assets/img/logo/logo.svg" alt="" class="img-fluid navbar-brand-sticky">
-                        <img src="assets/img/logo/logo-white.svg" alt="" class="img-fluid navbar-brand-transparent">
+                        <img src="assets/img/logo/logo.png" alt="" class="img-fluid navbar-brand-sticky">
+                        <img src="assets/img/logo/logo.png" alt="" class="img-fluid navbar-brand-transparent">
                     </a>
                     <div class="d-flex align-items-center navbar-no-collapse-items order-lg-last">
                         <button class="navbar-toggler order-last" type="button" data-bs-toggle="collapse"
@@ -77,7 +77,9 @@ include __DIR__ . '/../app/partials/head-includes.html';
                 <!--begin:Video-bg-->
                 <div class="w-100 h-100 opacity-25 position-absolute end-0 top-0 bg-cover bg-no-repeat bg-center"
                     style="background-image: url('assets/videos/officeloop-cover.jpg');">
-                    <div class="jarallax h-100 w-100" data-video-src="mp4:./assets/videos/officeloop.mp4">
+
+		    <div class="jarallax h-100 w-100" data-video-src="https://player.vimeo.com/video/970138220?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp;loop=1"><script src="https://player.vimeo.com/api/player.js" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="The Red Legion"></script>
+
                     </div>
                 </div>
                 <!--end:Video-bg-->
@@ -93,23 +95,23 @@ include __DIR__ . '/../app/partials/head-includes.html';
                                 <div class="swiper-wrapper text-warning">
                                     <!--Slide item-->
                                     <div class="swiper-slide justify-content-center">
-                                        Design anything
+                                        Resource Extraction and Processing
                                     </div>
                                     <!--Slide item-->
                                     <div class="swiper-slide justify-content-center">
-                                        Built for developers
+                                        Asset Reclamation
                                     </div>
                                     <!--Slide item-->
                                     <div class="swiper-slide justify-content-center">
-                                        Built for everyone
+                                        Shipping &amps; Logistics
                                     </div>
                                     <!--Slide item-->
                                     <div class="swiper-slide justify-content-center">
-                                        Mobile friendly
+                                        Supply Chain Management
                                     </div>
                                     <!--Slide item-->
                                     <div class="swiper-slide justify-content-center">
-                                        Best selling theme
+                                        Field Support and Protection
                                     </div>
                                 </div>
                                 <!--end:Slider wrapper-->
@@ -119,17 +121,17 @@ include __DIR__ . '/../app/partials/head-includes.html';
 
                             <!--Hero title-->
                             <h1 class="display-3 mb-4 mb-lg-5">
-                                We build <span class="text-gradient-light">cutting edge</span> websites
-                            </h1>
+				Industry focused <span class="text-gradient-light">cooperative organization.</span> 
+			    </h1>
 
                             <!--Hero description-->
                             <p class="mb-5 mb-lg-7 lead w-lg-60 mx-auto">
-                                Lorem ipsum is placeholder text commonly used in the graphic, print industries.
+                                The Red Legion, led by RedMonsterSC, is an industry-driven organization built on cooperation. We specialize in large-scale mining, salvage, and refining operations.
                             </p>
 
                             <!--Hero action button-->
                             <div class="d-flex align-items-center justify-content-center">
-                                <a href="#section" class="btn btn-primary btn-lg me-2 me-lg-3">Get started</a>
+                                <a href="#section" class="btn btn-primary btn-lg me-2 me-lg-3">Apply Today!</a>
                             </div>
                         </div>
                     </div>
