@@ -9,7 +9,7 @@ This is the public-facing website for **The Red Legion**, a Star Citizen organiz
 - **PHP 8.3**  
 - **Apache 2** on Ubuntu  
 - **Composer** for dependency management  
-- **Twig** templating engine  
+- **Twig** templating engine (tentative) 
 - **Bootstrap 5** for front-end layout & styling  
 - **MySQL / MariaDB** via **PDO** for database access  
 - **dotenv** (phpdotenv) for managing environment variables in development
