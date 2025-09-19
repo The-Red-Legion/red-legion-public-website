@@ -34,6 +34,8 @@ red-legion-public-website/
 ├── .env                      # local environment variables (git-ignored)
 └── README.md
 
+##
+
 🔒 Configuration & Secrets
 
 .env stores environment variables locally, never commit real secrets to Git
