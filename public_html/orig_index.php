@@ -46,21 +46,17 @@ include __DIR__ . '/../app/partials/head-includes.html';
                         </button>
 
                         <div class="nav-item me-1 position-relative ms-2 ms-lg-3 ms-xl-4">
-                            <a href="https://discord.gg/RedLegion" target='_blank'
+                            <a href="#"
                                 class="btn btn-white p-0 rounded-circle si width-3x height-3x si-colored-linkedin d-flex align-items-center justify-content-center">
-                                <i class="bi bi-discord fs-6"></i>
-                                <i class="bi bi-discord fs-6"></i>
+                                <i class="bi bi-linkedin fs-6"></i>
+                                <i class="bi bi-linkedin fs-6"></i>
                             </a>
                         </div>
                         <div class="nav-item position-relative ms-1 me-3 me-xl-4">
                             <a href="#"
-				class="p-0 rounded-circle si width-3x height-3x si-colored-linkedin d-flex align-items-center justify-content-center">
-
-<img src="/assets/img/vectors/starcitizen.svg" alt="Star Citizen" class="sc-icon">
-<img src="/assets/img/vectors/starcitizen.svg" alt="Star Citizen" class="sc-icon">
-
-                                <i class="bi bi-starcitizen fs-6 text-white"></i>
-                                <i class="bi bi-starcitizen fs-6 text-white"></i>
+                                class="p-0 rounded-circle si width-3x height-3x si-colored-twitter d-flex align-items-center justify-content-center">
+                                <i class="bi bi-twitter-x fs-6"></i>
+                                <i class="bi bi-twitter-x fs-6"></i>
                             </a>
                         </div>
                         <div class="nav-item me-2 d-none d-xl-flex">
