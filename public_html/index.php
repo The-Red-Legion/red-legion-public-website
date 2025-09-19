@@ -56,9 +56,6 @@ include __DIR__ . '/../app/partials/head-includes.html';
                             <a href="#"
 				class="p-0 rounded-circle si width-3x height-3x si-colored-linkedin d-flex align-items-center justify-content-center">
 
-<img src="/assets/img/vectors/starcitizen.svg" alt="Star Citizen" class="sc-icon">
-<img src="/assets/img/vectors/starcitizen.svg" alt="Star Citizen" class="sc-icon">
-
                                 <i class="bi bi-starcitizen fs-6 text-white"></i>
                                 <i class="bi bi-starcitizen fs-6 text-white"></i>
                             </a>
