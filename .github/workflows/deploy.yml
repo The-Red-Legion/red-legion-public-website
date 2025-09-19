@@ -29,16 +29,36 @@ jobs:
         python -m pip install --upgrade pip
         pip install ansible
 
-    - name: Deploy with Ansible
+    - name: Copy deployment files to server
       run: |
-        cd ansible
-        ansible-playbook -i inventory.ini deploy.yml \
-          -e "db_host=${{ secrets.DB_HOST }}" \
-          -e "db_port=${{ secrets.DB_PORT }}" \
-          -e "db_name=${{ secrets.DB_NAME }}" \
-          -e "db_user=${{ secrets.DB_USER }}" \
-          -e "db_pass=${{ secrets.DB_PASS }}" \
-          --ssh-common-args='-o StrictHostKeyChecking=no'
+        # Copy entire repository to server
+        gcloud compute scp --recurse . ubuntu@arccorp-web-server:/tmp/red-legion-website-deploy/ --zone us-central1-a
+
+    - name: Deploy with Ansible via gcloud ssh
+      run: |
+        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "
+          cd /tmp/red-legion-website-deploy
+
+          # Install Ansible on the server if not present
+          sudo apt update
+          sudo apt install -y python3-pip
+          pip3 install ansible
+
+          # Run Ansible playbook locally on the server
+          cd ansible
+          ansible-playbook -i inventory.ini deploy.yml \
+            -e 'db_host=${{ secrets.DB_HOST }}' \
+            -e 'db_port=${{ secrets.DB_PORT }}' \
+            -e 'db_name=${{ secrets.DB_NAME }}' \
+            -e 'db_user=${{ secrets.DB_USER }}' \
+            -e 'db_pass=${{ secrets.DB_PASS }}' \
+            --connection=local \
+            --inventory=localhost, \
+            --limit=localhost
+
+          # Clean up
+          rm -rf /tmp/red-legion-website-deploy
+        "
 
     - name: Verify deployment
       run: |
