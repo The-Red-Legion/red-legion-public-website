@@ -45,6 +45,7 @@
           - "php{{ php_version }}-hash"
           - "php{{ php_version }}-openssl"
           - mysql-server
+          - python3-pymysql
           - composer
           - nginx
         state: present
@@ -131,6 +132,32 @@
         port: 3306
         host: 127.0.0.1
         timeout: 30
+
+    - name: Create website database and user (basic setup)
+      block:
+        - name: Create website database
+          mysql_db:
+            name: "{{ db_name }}"
+            state: present
+            login_unix_socket: /var/run/mysqld/mysqld.sock
+          become_user: root
+
+        - name: Create website database user
+          mysql_user:
+            name: "{{ db_user }}"
+            password: "{{ db_pass }}"
+            priv: "{{ db_name }}.*:ALL"
+            host: localhost
+            state: present
+            login_unix_socket: /var/run/mysqld/mysqld.sock
+          become_user: root
+
+      rescue:
+        - name: Log database setup warning
+          debug:
+            msg: "Warning: Could not set up database automatically. Manual database configuration may be needed."
+
+      ignore_errors: yes
 
     - name: Create application directory
       file:
