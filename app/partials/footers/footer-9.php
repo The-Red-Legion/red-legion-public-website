@@ -19,7 +19,10 @@
                 <a href="mailto:mail@domain.com" class="fs-4 mt-4 mb-3 link-hover-underline">mail@domain.com</a><br>
                 <a href="mailto:mail@domain.com" class="fs-4 link-hover-underline">+01 123-4567-890</a>
                 <div class="position-relative">
-                    @@include('../color-mode.html')
+			<?php
+		                //Color mode.
+		                include __DIR__ . '/../color-mode.html';
+		        ?>
                 </div>
 
 
