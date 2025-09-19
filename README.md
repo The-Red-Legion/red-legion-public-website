@@ -33,6 +33,7 @@ red-legion-public-website/
 ├── composer.lock
 ├── .env                      # local environment variables (git-ignored)
 └── README.md
+```
 
 ##
 
