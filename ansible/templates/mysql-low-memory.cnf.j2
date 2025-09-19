@@ -1,0 +1,36 @@
+[mysqld]
+# Memory optimization for small VMs (1-2GB RAM)
+# Reduces MySQL memory usage from ~400MB to ~64MB
+
+# InnoDB Settings (most important for memory)
+innodb_buffer_pool_size = 32M          # Default: 128M, reduce to 32M
+innodb_log_file_size = 8M              # Default: 48M, reduce to 8M
+innodb_log_buffer_size = 2M            # Default: 8M, reduce to 2M
+innodb_sort_buffer_size = 256K         # Default: 1M, reduce to 256K
+innodb_additional_mem_pool_size = 2M   # Default: 8M, reduce to 2M
+
+# General Memory Settings
+key_buffer_size = 8M                   # Default: 16M, reduce to 8M
+max_connections = 20                   # Default: 151, reduce to 20
+table_open_cache = 32                  # Default: 64, reduce to 32
+sort_buffer_size = 128K               # Default: 256K, reduce to 128K
+read_buffer_size = 128K               # Default: 128K, keep same
+read_rnd_buffer_size = 128K           # Default: 256K, reduce to 128K
+myisam_sort_buffer_size = 4M          # Default: 8M, reduce to 4M
+thread_cache_size = 4                 # Default: 8, reduce to 4
+query_cache_size = 8M                 # Default: 0, add small cache
+query_cache_type = 1                  # Enable query cache
+
+# Performance Schema (disable to save memory)
+performance_schema = OFF              # Default: ON, disable to save ~10MB
+
+# Logging (reduce for production)
+slow_query_log = 0                    # Disable slow query log
+general_log = 0                       # Disable general log
+
+# Binary logging (optional, disable if not needed)
+skip-log-bin                          # Disable binary logging to save memory
+
+# Networking
+bind-address = 127.0.0.1              # Only local connections
+skip-name-resolve                     # Don't resolve hostnames
