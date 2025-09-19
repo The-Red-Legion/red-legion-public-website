@@ -26,6 +26,12 @@ jobs:
 
     - name: Deploy website files
       run: |
+        # Create deployment directory on server first
+        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "
+          sudo mkdir -p /tmp/red-legion-website-deploy
+          sudo chown ubuntu:ubuntu /tmp/red-legion-website-deploy
+        "
+
         # Copy website files to server
         gcloud compute scp --recurse . ubuntu@arccorp-web-server:/tmp/red-legion-website-deploy/ --zone us-central1-a
 
