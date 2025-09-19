@@ -24,44 +24,43 @@ jobs:
       with:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-    - name: Install Ansible
+    - name: Copy files and deploy with Ansible via gcloud
       run: |
-        python -m pip install --upgrade pip
-        pip install ansible
+        # Copy entire project to server
+        gcloud compute scp --recurse . ubuntu@arccorp-web-server:/tmp/red-legion-website-deploy/ --zone us-central1-a
 
-    - name: Setup gcloud SSH key for Ansible
-      run: |
-        # Generate SSH key if it doesn't exist
-        if [ ! -f ~/.ssh/google_compute_engine ]; then
-          ssh-keygen -t rsa -f ~/.ssh/google_compute_engine -N '' -C "github-actions"
-        fi
+        # Run deployment via gcloud ssh (using the working approach)
+        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "
+          cd /tmp/red-legion-website-deploy
 
-        # Add the public key to the VM metadata
-        gcloud compute project-info add-metadata \
-          --metadata-from-file ssh-keys=<(gcloud compute project-info describe --format="value(commonInstanceMetadata.items[ssh-keys].value)" ; echo "github-actions:$(cat ~/.ssh/google_compute_engine.pub)")
+          # Install Ansible if not present
+          if ! command -v ansible-playbook &> /dev/null; then
+            sudo apt update -qq
+            sudo apt install -y python3-pip python3-venv
+            python3 -m pip install ansible
+          fi
 
-    - name: Deploy with Ansible
-      run: |
-        cd ansible
+          # Export database variables for Ansible
+          export DB_HOST='${{ secrets.DB_HOST }}'
+          export DB_PORT='${{ secrets.DB_PORT }}'
+          export DB_NAME='${{ secrets.DB_NAME }}'
+          export DB_USER='${{ secrets.DB_USER }}'
+          export DB_PASS='${{ secrets.DB_PASS }}'
 
-        # Create temporary inventory with gcloud SSH config
-        cat > inventory-gcloud.ini << EOF
-        [web_servers]
-        arccorp-web-server ansible_host=34.28.1.154 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/google_compute_engine
+          # Run Ansible playbook locally on the server
+          cd ansible
+          ansible-playbook -i localhost, deploy.yml \
+            --connection=local \
+            -e \"db_host=\$DB_HOST\" \
+            -e \"db_port=\$DB_PORT\" \
+            -e \"db_name=\$DB_NAME\" \
+            -e \"db_user=\$DB_USER\" \
+            -e \"db_pass=\$DB_PASS\" \
+            -v
 
-        [web_servers:vars]
-        ansible_python_interpreter=/usr/bin/python3
-        ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
-        EOF
-
-        # Run Ansible playbook
-        ansible-playbook -i inventory-gcloud.ini deploy.yml \
-          -e "db_host=${{ secrets.DB_HOST }}" \
-          -e "db_port=${{ secrets.DB_PORT }}" \
-          -e "db_name=${{ secrets.DB_NAME }}" \
-          -e "db_user=${{ secrets.DB_USER }}" \
-          -e "db_pass=${{ secrets.DB_PASS }}" \
-          -v
+          # Clean up
+          rm -rf /tmp/red-legion-website-deploy
+        "
 
     - name: Verify deployment
       run: |
