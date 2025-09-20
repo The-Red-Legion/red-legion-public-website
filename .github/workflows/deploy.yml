@@ -91,13 +91,25 @@ jobs:
           ls -la /opt/ 2>/dev/null || echo 'No /opt directory yet'
         "
 
-    - name: Stop failing management portal service (if SSH works)
+    - name: Remove management portal completely (if SSH works)
       run: |
-        echo "Attempting to stop the crashing management portal service..."
+        echo "Attempting to completely remove the management portal..."
         gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "
+          # Stop and disable the service
           sudo systemctl stop red-legion-management-portal-backend 2>/dev/null || echo 'Service already stopped or not found'
           sudo systemctl disable red-legion-management-portal-backend 2>/dev/null || echo 'Service disable failed or not found'
-          echo 'Management portal service stopped'
+
+          # Remove systemd service file
+          sudo rm -f /etc/systemd/system/red-legion-management-portal-backend.service
+          sudo systemctl daemon-reload
+
+          # Remove application directory
+          sudo rm -rf /opt/red-legion-management-portal/
+
+          # Kill any remaining processes
+          sudo pkill -f 'red-legion' || echo 'No processes found'
+
+          echo 'Management portal completely removed'
         " --ssh-flag="-o ConnectTimeout=15" || echo "SSH still unavailable, proceeding with VM reset approach"
 
     - name: Reset VM if SSH still unavailable (last resort)
@@ -123,9 +135,6 @@ jobs:
         gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "
           cd /tmp/ansible
 
-          # Stop any remaining management portal processes
-          sudo systemctl stop red-legion-management-portal-backend 2>/dev/null || echo 'Service not running'
-          sudo systemctl disable red-legion-management-portal-backend 2>/dev/null || echo 'Service not found'
 
           # Install Ansible on the server if needed
           if ! command -v ansible-playbook &> /dev/null; then
@@ -152,4 +161,4 @@ jobs:
       run: |
         echo "PHP Website deployment completed!"
         echo "Main site: http://dev.redlegion.gg/"
-        echo "Management portal: http://dev.redlegion.gg/management/"
+        echo "phpMyAdmin: http://dev.redlegion.gg/phpmyadmin"
