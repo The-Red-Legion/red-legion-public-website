@@ -70,18 +70,26 @@ jobs:
         echo 'exec gcloud compute ssh --zone=us-central1-a "$@"' >> ~/.ssh/gcloud_ssh_wrapper.sh
         chmod +x ~/.ssh/gcloud_ssh_wrapper.sh
 
+        # Get absolute path for use in Ansible
+        SSH_WRAPPER_PATH=$(realpath ~/.ssh/gcloud_ssh_wrapper.sh)
+        echo "SSH wrapper created at: $SSH_WRAPPER_PATH"
+
     - name: Deploy with Ansible using gcloud connectivity
       run: |
         cd ansible
 
-        # Create dynamic inventory with gcloud SSH proxy
-        cat > inventory-gcloud.ini << 'EOF'
+        # Get absolute path to SSH wrapper
+        SSH_WRAPPER_PATH=$(realpath ~/.ssh/gcloud_ssh_wrapper.sh)
+        echo "Using SSH wrapper: $SSH_WRAPPER_PATH"
+
+        # Create dynamic inventory with gcloud SSH proxy using absolute path
+        cat > inventory-gcloud.ini << EOF
         [web_servers]
         arccorp-web-server ansible_host=ubuntu@arccorp-web-server
 
         [web_servers:vars]
         ansible_python_interpreter=/usr/bin/python3
-        ansible_ssh_executable=~/.ssh/gcloud_ssh_wrapper.sh
+        ansible_ssh_executable=$SSH_WRAPPER_PATH
         ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
         ansible_host_key_checking=False
         EOF
