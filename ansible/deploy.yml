@@ -48,6 +48,7 @@
           - python3-pymysql
           - composer
           - nginx
+          - phpmyadmin
         state: present
 
     - name: Start and enable PHP-FPM
@@ -152,10 +153,58 @@
             login_unix_socket: /var/run/mysqld/mysqld.sock
           become_user: root
 
+        - name: Create phpMyAdmin admin user
+          mysql_user:
+            name: "admin"
+            password: "RedLegion2024!"
+            priv: "*.*:ALL,GRANT"
+            host: localhost
+            state: present
+            login_unix_socket: /var/run/mysqld/mysqld.sock
+          become_user: root
+
       rescue:
         - name: Log database setup warning
           debug:
             msg: "Warning: Could not set up database automatically. Manual database configuration may be needed."
+
+      ignore_errors: yes
+
+    - name: Configure phpMyAdmin
+      block:
+        - name: Configure phpMyAdmin for nginx
+          lineinfile:
+            path: /etc/phpmyadmin/config.inc.php
+            line: "{{ item }}"
+            create: yes
+          loop:
+            - "<?php"
+            - "$cfg['blowfish_secret'] = '{{ ansible_date_time.epoch }}{{ ansible_hostname }}secretkey';"
+            - "$cfg['Servers'][$i]['auth_type'] = 'cookie';"
+            - "$cfg['Servers'][$i]['host'] = 'localhost';"
+            - "$cfg['Servers'][$i]['compress'] = false;"
+            - "$cfg['Servers'][$i]['AllowNoPassword'] = false;"
+            - "$cfg['TempDir'] = '/tmp';"
+
+        - name: Set phpMyAdmin permissions
+          file:
+            path: /etc/phpmyadmin
+            owner: www-data
+            group: www-data
+            mode: '0755'
+            recurse: yes
+
+        - name: Create phpMyAdmin symlink in website
+          file:
+            src: /usr/share/phpmyadmin
+            dest: "{{ app_dir }}/public_html/phpmyadmin"
+            state: link
+            force: yes
+
+      rescue:
+        - name: Log phpMyAdmin setup warning
+          debug:
+            msg: "Warning: Could not configure phpMyAdmin automatically. Manual configuration may be needed."
 
       ignore_errors: yes
 
@@ -323,6 +372,16 @@
         echo ""
         echo "Top processes by memory:"
         ps aux --sort=-%mem | head -5
+        echo ""
+        echo "Website and phpMyAdmin access:"
+        echo "Main site: http://dev.redlegion.gg/"
+        echo "phpMyAdmin: http://dev.redlegion.gg/phpmyadmin"
+        echo "Management portal: http://dev.redlegion.gg/management/"
+        echo ""
+        echo "Database credentials:"
+        echo "Database: red_legion_website"
+        echo "Website user: website_user / temp_password_to_be_changed"
+        echo "Admin user: admin / RedLegion2024!"
       register: final_status
 
     - name: Display final status
