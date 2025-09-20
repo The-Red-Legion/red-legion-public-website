@@ -41,6 +41,26 @@ jobs:
           rm -f /tmp/deploy.sh
         "
 
+        echo "Copying website files to server..."
+        gcloud compute scp --recurse public_html ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
+        gcloud compute scp --recurse app ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
+        gcloud compute scp composer.json ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
+
+        echo "Installing website files..."
+        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "
+          sudo cp -r /tmp/public_html/* /opt/red-legion-website/public_html/
+          sudo cp -r /tmp/app /opt/red-legion-website/
+          sudo cp /tmp/composer.json /opt/red-legion-website/
+          sudo chown -R www-data:www-data /opt/red-legion-website
+
+          # Install composer dependencies
+          cd /opt/red-legion-website
+          sudo -u www-data composer install --no-dev --optimize-autoloader
+
+          # Clean up temp files
+          rm -rf /tmp/public_html /tmp/app /tmp/composer.json
+        "
+
     - name: Verify deployment
       run: |
         echo "Verifying website is accessible..."
