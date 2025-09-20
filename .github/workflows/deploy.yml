@@ -24,128 +24,29 @@ jobs:
       with:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-    - name: Verify service account and permissions
+    - name: Test SSH connectivity
       run: |
-        echo "=== Service Account Information ==="
-        gcloud auth list
-        echo ""
-        echo "Current account:"
-        gcloud config get-value account
-        echo ""
-        echo "Project ID:"
-        gcloud config get-value project
-        echo ""
-        echo "=== Testing required permissions ==="
-        echo "Testing compute instance access..."
-        gcloud compute instances describe arccorp-web-server --zone us-central1-a --format="value(name,status)" || echo "ERROR: Cannot access compute instance"
-        echo ""
-        echo "Testing SSH access..."
-        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "echo 'SSH test successful'" --ssh-flag="-o ConnectTimeout=10" || echo "ERROR: SSH access failed"
-        echo ""
-        echo "=== Service Account Permissions Check ==="
-        SA_EMAIL=$(gcloud config get-value account)
-        echo "Service account: $SA_EMAIL"
-        echo ""
-        echo "Checking IAM roles for this service account..."
-        gcloud projects get-iam-policy ${{ secrets.GCP_PROJECT_ID }} --flatten="bindings[].members" --filter="bindings.members:$SA_EMAIL" --format="table(bindings.role)" || echo "Could not retrieve IAM policies"
-        echo ""
-        echo "=== Required Permissions for Deployment ==="
-        echo "This service account needs these roles/permissions:"
-        echo "- roles/compute.instanceAdmin (or compute.instances.get, compute.instances.setMetadata)"
-        echo "- roles/compute.osLogin (or compute.instances.setMetadata for SSH keys)"
-        echo "- roles/iam.serviceAccountUser (if using service account impersonation)"
-        echo "- roles/compute.viewer (minimum for basic instance access)"
-        echo ""
-        echo "If this is the Terraform service account, it likely already has:"
-        echo "- roles/compute.admin or roles/editor (which includes the above)"
+        echo "Testing SSH connection to web server..."
+        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "echo 'SSH connection successful!'" --ssh-flag="-o ConnectTimeout=10"
 
-    - name: Gather VM information and test connectivity
+    - name: Deploy website with Ansible
       run: |
-        echo "=== VM Instance Information ==="
-        gcloud compute instances describe arccorp-web-server --zone us-central1-a --format="table(name,status,machineType.scope(machineTypes),networkInterfaces[0].accessConfigs[0].natIP:label=EXTERNAL_IP)"
-
-        echo ""
-        echo "=== VM Metadata ==="
-        gcloud compute instances describe arccorp-web-server --zone us-central1-a --format="value(metadata.items[].key,metadata.items[].value)" | head -10
-
-        echo ""
-        echo "=== SSH Keys on Instance ==="
-        gcloud compute instances describe arccorp-web-server --zone us-central1-a --format="value(metadata.items[ssh-keys].value)" | head -5
-
-        echo ""
-        echo "=== VM Disk Information ==="
-        gcloud compute instances describe arccorp-web-server --zone us-central1-a --format="table(disks[].source.scope(disks),disks[].boot)"
-
-        echo ""
-        echo "=== Testing SSH Connection ==="
-        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "
-          echo 'SSH Connection successful!'
-          echo 'Current user: '$(whoami)
-          echo 'Home directory: '$(pwd)
-          echo 'OS Info: '$(cat /etc/os-release | grep PRETTY_NAME)
-          echo 'Memory: '$(free -h | grep Mem)
-          echo 'Disk: '$(df -h / | tail -1)
-          echo 'Running services:'
-          systemctl is-active nginx mysql php8.1-fpm 2>/dev/null || echo 'Services not yet installed'
-          echo 'Existing deployments:'
-          ls -la /opt/ 2>/dev/null || echo 'No /opt directory yet'
-        "
-
-    - name: Remove management portal completely (if SSH works)
-      run: |
-        echo "Attempting to completely remove the management portal..."
-        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "
-          # Stop and disable the service
-          sudo systemctl stop red-legion-management-portal-backend 2>/dev/null || echo 'Service already stopped or not found'
-          sudo systemctl disable red-legion-management-portal-backend 2>/dev/null || echo 'Service disable failed or not found'
-
-          # Remove systemd service file
-          sudo rm -f /etc/systemd/system/red-legion-management-portal-backend.service
-          sudo systemctl daemon-reload
-
-          # Remove application directory
-          sudo rm -rf /opt/red-legion-management-portal/
-
-          # Kill any remaining processes
-          sudo pkill -f 'red-legion' || echo 'No processes found'
-
-          echo 'Management portal completely removed'
-        " --ssh-flag="-o ConnectTimeout=15" || echo "SSH still unavailable, proceeding with VM reset approach"
-
-    - name: Reset VM if SSH still unavailable (last resort)
-      run: |
-        echo "Testing SSH connectivity one more time..."
-        if ! gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "echo 'SSH test'" --ssh-flag="-o ConnectTimeout=5" 2>/dev/null; then
-          echo "SSH still unavailable, resetting VM to clear resource issues..."
-          gcloud compute instances reset arccorp-web-server --zone us-central1-a
-          echo "Waiting 2 minutes for VM to restart..."
-          sleep 120
-          echo "Testing SSH after reset..."
-          gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "echo 'SSH restored after reset'" --ssh-flag="-o ConnectTimeout=15"
-        else
-          echo "SSH is working, no reset needed"
-        fi
-
-    - name: Deploy with direct gcloud SSH approach (simpler)
-      run: |
-        echo "Copying files to server..."
+        echo "Copying deployment files to server..."
         gcloud compute scp --recurse ansible ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
 
-        echo "Running Ansible on the server directly..."
+        echo "Running Ansible deployment..."
         gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "
           cd /tmp/ansible
 
-
-          # Install Ansible on the server if needed
+          # Install Ansible if not present
           if ! command -v ansible-playbook &> /dev/null; then
             sudo apt update -qq
             sudo apt install -y python3-pip
             pip3 install ansible
           fi
 
-          # Run Ansible locally on the server
-          ansible-playbook -i localhost, deploy.yml \
-            --connection=local \
+          # Deploy the website
+          /home/ubuntu/.local/bin/ansible-playbook -i inventory.ini deploy.yml \
             -e 'db_host=localhost' \
             -e 'db_port=3306' \
             -e 'db_name=red_legion_website' \
@@ -153,12 +54,23 @@ jobs:
             -e 'db_pass=temp_password_to_be_changed' \
             -v
 
-          # Clean up
+          # Clean up deployment files
           rm -rf /tmp/ansible
         "
 
     - name: Verify deployment
       run: |
-        echo "PHP Website deployment completed!"
-        echo "Main site: http://dev.redlegion.gg/"
+        echo "Verifying website is accessible..."
+        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "
+          echo 'Checking services...'
+          systemctl is-active nginx || echo 'Nginx not running'
+          systemctl is-active php8.1-fpm || echo 'PHP-FPM not running'
+          systemctl is-active mysql || echo 'MySQL not running'
+
+          echo 'Testing web server response...'
+          curl -I http://localhost/ || echo 'Website not responding'
+        "
+
+        echo "🎉 Deployment completed!"
+        echo "Website: http://dev.redlegion.gg/"
         echo "phpMyAdmin: http://dev.redlegion.gg/phpmyadmin"
