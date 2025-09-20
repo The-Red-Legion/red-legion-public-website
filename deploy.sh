@@ -89,40 +89,12 @@ sudo mysql -e "CREATE USER IF NOT EXISTS 'website_user'@'localhost' IDENTIFIED B
 sudo mysql -e "GRANT ALL PRIVILEGES ON red_legion_website.* TO 'website_user'@'localhost';"
 sudo mysql -e "FLUSH PRIVILEGES;"
 
-# Create a simple index.php for testing
-echo "Creating test page..."
-sudo mkdir -p /opt/red-legion-website/public_html
-sudo tee /opt/red-legion-website/public_html/index.php > /dev/null << 'EOF'
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Red Legion Website</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 100px; }
-        .logo { font-size: 48px; color: #d32f2f; font-weight: bold; }
-        .subtitle { font-size: 18px; color: #666; margin-top: 20px; }
-        .status { margin-top: 40px; padding: 20px; background: #f5f5f5; border-radius: 10px; display: inline-block; }
-    </style>
-</head>
-<body>
-    <div class="logo">THE RED LEGION</div>
-    <div class="subtitle">Star Citizen Organization</div>
-    <div class="status">
-        <h3>Deployment Status: ✅ SUCCESS</h3>
-        <p>PHP Version: <?php echo phpversion(); ?></p>
-        <p>Server Time: <?php echo date('Y-m-d H:i:s'); ?></p>
-        <p>Database: <?php
-            try {
-                $pdo = new PDO('mysql:host=localhost;dbname=red_legion_website', 'website_user', 'temp_password_to_be_changed');
-                echo "✅ Connected";
-            } catch(PDOException $e) {
-                echo "❌ Connection failed";
-            }
-        ?></p>
-    </div>
-</body>
-</html>
-EOF
+# Deploy actual website content
+echo "Deploying Red Legion website content..."
+sudo mkdir -p /opt/red-legion-website
+
+# Copy website files (these should be copied from the repository)
+echo "Website files will be copied from repository during GitHub Actions deployment..."
 
 sudo chown -R www-data:www-data /opt/red-legion-website
 
