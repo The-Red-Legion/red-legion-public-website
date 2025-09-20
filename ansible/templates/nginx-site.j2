@@ -1,3 +1,11 @@
+# Redirect www to non-www
+server {
+    listen 80;
+    listen [::]:80;
+    server_name www.dev.redlegion.gg;
+    return 301 http://dev.redlegion.gg$request_uri;
+}
+
 # Main website (PHP)
 server {
     listen 80 default_server;
