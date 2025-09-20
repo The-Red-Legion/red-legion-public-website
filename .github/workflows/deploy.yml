@@ -24,6 +24,41 @@ jobs:
       with:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
 
+    - name: Verify service account and permissions
+      run: |
+        echo "=== Service Account Information ==="
+        gcloud auth list
+        echo ""
+        echo "Current account:"
+        gcloud config get-value account
+        echo ""
+        echo "Project ID:"
+        gcloud config get-value project
+        echo ""
+        echo "=== Testing required permissions ==="
+        echo "Testing compute instance access..."
+        gcloud compute instances describe arccorp-web-server --zone us-central1-a --format="value(name,status)" || echo "ERROR: Cannot access compute instance"
+        echo ""
+        echo "Testing SSH access..."
+        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "echo 'SSH test successful'" --ssh-flag="-o ConnectTimeout=10" || echo "ERROR: SSH access failed"
+        echo ""
+        echo "=== Service Account Permissions Check ==="
+        SA_EMAIL=$(gcloud config get-value account)
+        echo "Service account: $SA_EMAIL"
+        echo ""
+        echo "Checking IAM roles for this service account..."
+        gcloud projects get-iam-policy ${{ secrets.GCP_PROJECT_ID }} --flatten="bindings[].members" --filter="bindings.members:$SA_EMAIL" --format="table(bindings.role)" || echo "Could not retrieve IAM policies"
+        echo ""
+        echo "=== Required Permissions for Deployment ==="
+        echo "This service account needs these roles/permissions:"
+        echo "- roles/compute.instanceAdmin (or compute.instances.get, compute.instances.setMetadata)"
+        echo "- roles/compute.osLogin (or compute.instances.setMetadata for SSH keys)"
+        echo "- roles/iam.serviceAccountUser (if using service account impersonation)"
+        echo "- roles/compute.viewer (minimum for basic instance access)"
+        echo ""
+        echo "If this is the Terraform service account, it likely already has:"
+        echo "- roles/compute.admin or roles/editor (which includes the above)"
+
     - name: Install Ansible and configure gcloud SSH
       run: |
         python -m pip install --upgrade pip
