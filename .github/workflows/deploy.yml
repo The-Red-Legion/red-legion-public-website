@@ -59,46 +59,40 @@ jobs:
         echo "If this is the Terraform service account, it likely already has:"
         echo "- roles/compute.admin or roles/editor (which includes the above)"
 
-    - name: Install Ansible and configure gcloud SSH
+    - name: Test basic gcloud SSH connectivity
       run: |
-        python -m pip install --upgrade pip
-        pip install ansible
+        echo "Testing direct gcloud SSH connection..."
+        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "echo 'Connection successful'; whoami; pwd"
 
-        # Configure gcloud SSH wrapper for Ansible
-        mkdir -p ~/.ssh
-        echo '#!/bin/bash' > ~/.ssh/gcloud_ssh_wrapper.sh
-        echo 'exec gcloud compute ssh --zone=us-central1-a "$@"' >> ~/.ssh/gcloud_ssh_wrapper.sh
-        chmod +x ~/.ssh/gcloud_ssh_wrapper.sh
-
-    - name: Deploy with Ansible using gcloud connectivity
+    - name: Deploy with direct gcloud SSH approach (simpler)
       run: |
-        cd ansible
+        echo "Copying files to server..."
+        gcloud compute scp --recurse ansible ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
 
-        # Get absolute path to SSH wrapper
-        SSH_WRAPPER_PATH="$HOME/.ssh/gcloud_ssh_wrapper.sh"
-        echo "Using SSH wrapper: $SSH_WRAPPER_PATH"
+        echo "Running Ansible on the server directly..."
+        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "
+          cd /tmp/ansible
 
-        # Create dynamic inventory with gcloud SSH proxy using absolute path
-        cat > inventory-gcloud.ini << EOF
-        [web_servers]
-        arccorp-web-server ansible_host=ubuntu@arccorp-web-server
+          # Install Ansible on the server if needed
+          if ! command -v ansible-playbook &> /dev/null; then
+            sudo apt update -qq
+            sudo apt install -y python3-pip
+            pip3 install ansible
+          fi
 
-        [web_servers:vars]
-        ansible_python_interpreter=/usr/bin/python3
-        ansible_ssh_executable=$SSH_WRAPPER_PATH
-        ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
-        ansible_host_key_checking=False
-        EOF
+          # Run Ansible locally on the server
+          ansible-playbook -i localhost, deploy.yml \
+            --connection=local \
+            -e 'db_host=localhost' \
+            -e 'db_port=3306' \
+            -e 'db_name=red_legion_website' \
+            -e 'db_user=website_user' \
+            -e 'db_pass=temp_password_to_be_changed' \
+            -v
 
-        # Run Ansible playbook with gcloud SSH proxy
-        export ANSIBLE_HOST_KEY_CHECKING=False
-        ansible-playbook -i inventory-gcloud.ini deploy.yml \
-          -e "db_host=localhost" \
-          -e "db_port=3306" \
-          -e "db_name=red_legion_website" \
-          -e "db_user=website_user" \
-          -e "db_pass=temp_password_to_be_changed" \
-          -v
+          # Clean up
+          rm -rf /tmp/ansible
+        "
 
     - name: Verify deployment
       run: |
