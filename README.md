@@ -6,8 +6,8 @@ This is the public-facing website for **The Red Legion**, a Star Citizen organiz
 
 ## 🛠 Tech Stack
 
-- **PHP 8.3**  
-- **Apache 2** on Ubuntu  
+- **PHP 8.1**
+- **Nginx** on Ubuntu 22.04  
 - **Composer** for dependency management  
 - **Twig** templating engine (tentative) 
 - **Bootstrap 5** for front-end layout & styling  
