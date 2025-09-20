@@ -91,6 +91,29 @@ jobs:
           ls -la /opt/ 2>/dev/null || echo 'No /opt directory yet'
         "
 
+    - name: Stop failing management portal service (if SSH works)
+      run: |
+        echo "Attempting to stop the crashing management portal service..."
+        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "
+          sudo systemctl stop red-legion-management-portal-backend 2>/dev/null || echo 'Service already stopped or not found'
+          sudo systemctl disable red-legion-management-portal-backend 2>/dev/null || echo 'Service disable failed or not found'
+          echo 'Management portal service stopped'
+        " --ssh-flag="-o ConnectTimeout=15" || echo "SSH still unavailable, proceeding with VM reset approach"
+
+    - name: Reset VM if SSH still unavailable (last resort)
+      run: |
+        echo "Testing SSH connectivity one more time..."
+        if ! gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "echo 'SSH test'" --ssh-flag="-o ConnectTimeout=5" 2>/dev/null; then
+          echo "SSH still unavailable, resetting VM to clear resource issues..."
+          gcloud compute instances reset arccorp-web-server --zone us-central1-a
+          echo "Waiting 2 minutes for VM to restart..."
+          sleep 120
+          echo "Testing SSH after reset..."
+          gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "echo 'SSH restored after reset'" --ssh-flag="-o ConnectTimeout=15"
+        else
+          echo "SSH is working, no reset needed"
+        fi
+
     - name: Deploy with direct gcloud SSH approach (simpler)
       run: |
         echo "Copying files to server..."
@@ -99,6 +122,10 @@ jobs:
         echo "Running Ansible on the server directly..."
         gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "
           cd /tmp/ansible
+
+          # Stop any remaining management portal processes
+          sudo systemctl stop red-legion-management-portal-backend 2>/dev/null || echo 'Service not running'
+          sudo systemctl disable red-legion-management-portal-backend 2>/dev/null || echo 'Service not found'
 
           # Install Ansible on the server if needed
           if ! command -v ansible-playbook &> /dev/null; then
