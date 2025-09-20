@@ -59,10 +59,37 @@ jobs:
         echo "If this is the Terraform service account, it likely already has:"
         echo "- roles/compute.admin or roles/editor (which includes the above)"
 
-    - name: Test basic gcloud SSH connectivity
+    - name: Gather VM information and test connectivity
       run: |
-        echo "Testing direct gcloud SSH connection..."
-        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "echo 'Connection successful'; whoami; pwd"
+        echo "=== VM Instance Information ==="
+        gcloud compute instances describe arccorp-web-server --zone us-central1-a --format="table(name,status,machineType.scope(machineTypes),networkInterfaces[0].accessConfigs[0].natIP:label=EXTERNAL_IP)"
+
+        echo ""
+        echo "=== VM Metadata ==="
+        gcloud compute instances describe arccorp-web-server --zone us-central1-a --format="value(metadata.items[].key,metadata.items[].value)" | head -10
+
+        echo ""
+        echo "=== SSH Keys on Instance ==="
+        gcloud compute instances describe arccorp-web-server --zone us-central1-a --format="value(metadata.items[ssh-keys].value)" | head -5
+
+        echo ""
+        echo "=== VM Disk Information ==="
+        gcloud compute instances describe arccorp-web-server --zone us-central1-a --format="table(disks[].source.scope(disks),disks[].boot)"
+
+        echo ""
+        echo "=== Testing SSH Connection ==="
+        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "
+          echo 'SSH Connection successful!'
+          echo 'Current user: '$(whoami)
+          echo 'Home directory: '$(pwd)
+          echo 'OS Info: '$(cat /etc/os-release | grep PRETTY_NAME)
+          echo 'Memory: '$(free -h | grep Mem)
+          echo 'Disk: '$(df -h / | tail -1)
+          echo 'Running services:'
+          systemctl is-active nginx mysql php8.1-fpm 2>/dev/null || echo 'Services not yet installed'
+          echo 'Existing deployments:'
+          ls -la /opt/ 2>/dev/null || echo 'No /opt directory yet'
+        "
 
     - name: Deploy with direct gcloud SSH approach (simpler)
       run: |
