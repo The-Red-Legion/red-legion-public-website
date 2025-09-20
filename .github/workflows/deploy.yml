@@ -70,16 +70,12 @@ jobs:
         echo 'exec gcloud compute ssh --zone=us-central1-a "$@"' >> ~/.ssh/gcloud_ssh_wrapper.sh
         chmod +x ~/.ssh/gcloud_ssh_wrapper.sh
 
-        # Get absolute path for use in Ansible
-        SSH_WRAPPER_PATH=$(realpath ~/.ssh/gcloud_ssh_wrapper.sh)
-        echo "SSH wrapper created at: $SSH_WRAPPER_PATH"
-
     - name: Deploy with Ansible using gcloud connectivity
       run: |
         cd ansible
 
         # Get absolute path to SSH wrapper
-        SSH_WRAPPER_PATH=$(realpath ~/.ssh/gcloud_ssh_wrapper.sh)
+        SSH_WRAPPER_PATH="$HOME/.ssh/gcloud_ssh_wrapper.sh"
         echo "Using SSH wrapper: $SSH_WRAPPER_PATH"
 
         # Create dynamic inventory with gcloud SSH proxy using absolute path
