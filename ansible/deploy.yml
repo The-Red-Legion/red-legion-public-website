@@ -10,6 +10,24 @@
     php_version: "8.1"
 
   tasks:
+    - name: Check system resources
+      shell: |
+        echo "Memory usage:"
+        free -h
+        echo "Disk usage:"
+        df -h /
+      register: system_status
+
+    - name: Display system status
+      debug:
+        var: system_status.stdout_lines
+
+    - name: Clean package cache to free space
+      shell: |
+        sudo apt-get clean
+        sudo apt-get autoremove -y
+      ignore_errors: yes
+
     - name: Update apt cache
       apt:
         update_cache: yes
@@ -29,7 +47,22 @@
       apt:
         update_cache: yes
 
-    - name: Install PHP and required extensions
+    - name: Fix any broken packages
+      shell: |
+        sudo dpkg --configure -a
+        sudo apt-get -f install -y
+      ignore_errors: yes
+
+    - name: Install core packages first
+      apt:
+        name:
+          - nginx
+          - mysql-server
+          - python3-pymysql
+        state: present
+        update_cache: yes
+
+    - name: Install PHP packages
       apt:
         name:
           - "php{{ php_version }}"
@@ -40,12 +73,20 @@
           - "php{{ php_version }}-xml"
           - "php{{ php_version }}-mbstring"
           - "php{{ php_version }}-zip"
-          - mysql-server
-          - python3-pymysql
-          - composer
-          - nginx
-          - phpmyadmin
         state: present
+
+    - name: Install additional tools
+      apt:
+        name:
+          - composer
+        state: present
+      ignore_errors: yes
+
+    - name: Install phpMyAdmin (optional)
+      apt:
+        name: phpmyadmin
+        state: present
+      ignore_errors: yes
 
     - name: Start and enable PHP-FPM
       systemd:
