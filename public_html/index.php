@@ -79,7 +79,7 @@ include __DIR__ . '/../app/partials/head-includes.html';
                         </div>
 
                         <div class="nav-item me-2 d-none d-xl-flex">
-                            <a href="#" class="btn btn-danger btn-sm">Staff Login</a>
+                            <a href="/Login" class="btn btn-danger btn-sm">Staff Login</a>
                         </div>
                     </div>
 		    <div class="collapse navbar-collapse" id="mainNavbarTheme">
