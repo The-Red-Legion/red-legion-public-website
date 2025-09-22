@@ -107,7 +107,7 @@ include __DIR__ . '/../app/partials/head-includes.html';
                                     </div>
                                     <!--Slide item-->
                                     <div class="swiper-slide justify-content-center">
-                                        Shipping &amps; Logistics
+                                        Shipping &amp; Logistics
                                     </div>
                                     <!--Slide item-->
                                     <div class="swiper-slide justify-content-center">
