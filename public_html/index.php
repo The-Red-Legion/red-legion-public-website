@@ -32,7 +32,7 @@ include __DIR__ . '/../app/partials/head-includes.html';
         <header class="z-fixed header-transparent header-absolute-top pt-lg-3 header-sticky">
             <nav class="navbar navbar-expand-lg navbar-light navbar-link-white">
                 <div class="container position-relative">
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="/">
                         <img src="assets/img/logo/logo.png" alt="" class="img-fluid navbar-brand-sticky">
                         <img src="assets/img/logo/logo.png" alt="" class="img-fluid navbar-brand-transparent">
                     </a>
@@ -115,7 +115,7 @@ include __DIR__ . '/../app/partials/head-includes.html';
                                     </div>
                                     <!--Slide item-->
                                     <div class="swiper-slide justify-content-center">
-                                        Field Support and Protection
+                                        Field Support &amp; Protection
                                     </div>
                                 </div>
                                 <!--end:Slider wrapper-->
@@ -125,7 +125,7 @@ include __DIR__ . '/../app/partials/head-includes.html';
 
                             <!--Hero title-->
                             <h1 class="display-3 mb-4 mb-lg-5">
-				Industry focused <span class="text-gradient-light">cooperative organization.</span> 
+				Industry focused <span class="text-gradient-light">logistics partner.</span> 
 			    </h1>
 
                             <!--Hero description-->
@@ -152,6 +152,8 @@ include __DIR__ . '/../app/partials/head-includes.html';
                 <!--end:Divider shape-->
             </section>
             <!--/section-->
+
+
             <section class="position-relative" id="section">
                 <div class="container py-9 py-lg-11 position-relative">
                     <div class="row justify-content-between align-items-center">
@@ -177,9 +179,9 @@ include __DIR__ . '/../app/partials/head-includes.html';
                                         </div>
                                         <div class="position-relative bg-body-tertiary p-4 rounded-4">
                                             <h2 class="display-6" data-aos
-                                                data-countup='{"startVal":0,"suffix":"+","duration":"5"}' data-to="6750"
+                                                data-countup='{"startVal":0,"suffix":"+","duration":"5"}' data-to="700"
                                                 data-aos-id="countup:in">0</h2>
-                                            <h6 class="mb-0">Copies sold</h6>
+                                            <h6 class="mb-0">Members</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -192,9 +194,9 @@ include __DIR__ . '/../app/partials/head-includes.html';
                                         </div>
                                         <div class="position-relative bg-body-tertiary p-4 rounded-4">
                                             <h2 class="display-6" data-aos
-                                                data-countup='{"startVal":0,"suffix":"+","duration":"5"}' data-to="500"
+                                                data-countup='{"startVal":0,"suffix":"+","duration":"5"}' data-to="30"
                                                 data-aos-id="countup:in">0</h2>
-                                            <h6 class="mb-0">Ui elements</h6>
+                                            <h6 class="mb-0">Monthly Events</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -207,9 +209,9 @@ include __DIR__ . '/../app/partials/head-includes.html';
                                         </div>
                                         <div class="position-relative bg-body-tertiary p-4 rounded-4">
                                             <h2 class="display-6" data-aos
-                                                data-countup='{"startVal":0,"suffix":"+","duration":"5"}' data-to="250"
+                                                data-countup='{"startVal":0,"suffix":"+","duration":"5"}' data-to="15"
                                                 data-aos-id="countup:in">0</h2>
-                                            <h6 class="mb-0">Valid layouts</h6>
+                                            <h6 class="mb-0">Timezones Represented</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -223,9 +225,9 @@ include __DIR__ . '/../app/partials/head-includes.html';
                                         </div>
                                         <div class="position-relative bg-body-tertiary p-4 rounded-4">
                                             <h2 class="display-6" data-aos
-                                                data-countup='{"startVal":0,"suffix":"+","duration":"5"}' data-to="15"
+                                                data-countup='{"startVal":0,"suffix":"+","duration":"5"}' data-to="500"
                                                 data-aos-id="countup:in">0</h2>
-                                            <h6 class="mb-0">Pre-built demos</h6>
+                                            <h6 class="mb-0">Successful Missions</h6>
                                         </div>
                                     </div>
                                 </div>
