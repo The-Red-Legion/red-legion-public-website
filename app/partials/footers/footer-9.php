@@ -15,9 +15,7 @@
             <div class="col-md-6 mb-3 mb-md-0">
                 <!--:Brand:-->
                 <a href="index.html">
-                    <img src="assets/img/logo/logo-white.svg" class="width-10x d-block h-auto" alt=""></a>
-                <a href="mailto:mail@domain.com" class="fs-4 mt-4 mb-3 link-hover-underline">mail@domain.com</a><br>
-                <a href="mailto:mail@domain.com" class="fs-4 link-hover-underline">+01 123-4567-890</a>
+                    <img src="assets/img/logo/logo.png" class="width-10x d-block h-auto" alt=""></a>
                 <div class="position-relative">
 			<?php
 		                //Color mode.
@@ -29,29 +27,22 @@
             </div>
             <div class="col-md-6 text-md-end">
                 <p class="mt-3">
-                    <strong class="small text-white">Company, Inc.</strong>
+                    <strong class="small text-white">The Red Legion</strong>
                 </p>
                 <p class="mt-3 mb-0 text-white">
-                    1355 Market St, Suite 900<br> San Francisco<br> CA 94103
+                    Cargo Dock 17-B<br> Providence Industrial Platform<br> Orison, Crusader<br> Comms Routing: STAR-MBPT-QL2K<br>
+                    <a href="mailto:inquiries@redlegion.gg" class="fs-6 link-hover-underline">inquiries@redlgion.gg</a>
                 </p>
 
             </div>
         </div>
         <div class="row align-items-center">
-            <div class="col-md-8 order-md-last mb-3 mb-md-0">
-                <div class="d-flex flex-wrap justify-content-md-end me-n4">
-                    <a href="#!" class="small me-4 link-hover-underline my-2 block">Properties</a>
-                    <a href="#!" class="small me-4 link-hover-underline my-2 block">Careers</a>
-                    <a href="#!" class="small me-4 link-hover-underline my-2 block">Company</a>
-                    <a href="#!" class="small me-4 link-hover-underline my-2 block">Privacy policy</a>
-                </div>
-            </div>
             <div class="col-md-4 order-md-1 small">
                 <span class="d-block my-2 lh-sm">&copy; Copyright
                     <script>
                         document.write(new Date().getFullYear())
 
-                    </script>. Assan
+                    </script> The Red Legion
                 </span>
             </div>
         </div>
