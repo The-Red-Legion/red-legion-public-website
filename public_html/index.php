@@ -36,6 +36,7 @@ include __DIR__ . '/../app/partials/head-includes.html';
                         <img src="assets/img/logo/logo.png" alt="" class="img-fluid navbar-brand-sticky">
                         <img src="assets/img/logo/logo.png" alt="" class="img-fluid navbar-brand-transparent">
                     </a>
+
                     <div class="d-flex align-items-center navbar-no-collapse-items order-lg-last">
                         <button class="navbar-toggler order-last" type="button" data-bs-toggle="collapse"
                             data-bs-target="#mainNavbarTheme" aria-controls="mainNavbarTheme" aria-expanded="false"
@@ -44,31 +45,48 @@ include __DIR__ . '/../app/partials/head-includes.html';
                                 <i></i>
                             </span>
                         </button>
-
-                        <div class="nav-item me-1 position-relative ms-2 ms-lg-3 ms-xl-4">
+                        
+                        <div class="nav-item position-relative ms-3 me-1">
                             <a href="https://discord.gg/RedLegion" target='_blank'
-                                class="btn btn-white p-0 rounded-circle si width-3x height-3x si-colored-linkedin d-flex align-items-center justify-content-center">
+                                class="btn btn-white p-0 rounded-circle si width-3x height-3x si-colored-linkedin d-flex align-items-center justify-content-center" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Join our Discord!">
                                 <i class="bi bi-discord fs-6"></i>
                                 <i class="bi bi-discord fs-6"></i>
                             </a>
                         </div>
-                        <div class="nav-item position-relative ms-1 me-3 me-xl-4">
-                            <a href="#"
-				class="p-0 rounded-circle si width-3x height-3x si-colored-linkedin d-flex align-items-center justify-content-center">
+                        <div class="nav-item position-relative ms-1 me-1">
+                            <a href="https://robertsspaceindustries.com/en/orgs/REDLEGN" target='_blank'
+				class="p-0 rounded-circle si width-3x height-3x si-colored-linkedin d-flex align-items-center justify-content-center" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Join us on RSI!">
 
-                                <i class="bi bi-starcitizen fs-6 text-white"></i>
-                                <i class="bi bi-starcitizen fs-6 text-white"></i>
+                                <i class="bi bi-rocket-takeoff fs-6 text-white"></i>
+                                <i class="bi bi-rocket-takeoff fs-6 text-white"></i>
                             </a>
                         </div>
+                        <div class="nav-item position-relative ms-1 me-1">
+                            <a href="https://www.twitch.tv/RedMonsterSC" target='_blank'
+				class="p-0 rounded-circle si width-3x height-3x si-colored-linkedin d-flex align-items-center justify-content-center" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Follow RedMonsterSC on Twitch!">
+
+                                <i class="bi bi-twitch fs-6 text-white"></i>
+                                <i class="bi bi-twitch fs-6 text-white"></i>
+                            </a>
+                        </div>
+                        <div class="nav-item position-relative ms-1 me-1">
+                            <a href="https://www.youtube.com/@RedMonsterSC" target='_blank'
+				class="p-0 rounded-circle si width-3x height-3x si-colored-linkedin d-flex align-items-center justify-content-center" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Subscribe to RedMonsterSC on YouTube!">
+
+                                <i class="bi bi-youtube fs-6 text-white"></i>
+                                <i class="bi bi-youtube fs-6 text-white"></i>
+                            </a>
+                        </div>
+
                         <div class="nav-item me-2 d-none d-xl-flex">
-                            <a href="#" class="btn btn-success btn-sm">Purchase</a>
+                            <a href="#" class="btn btn-danger btn-sm">Staff Login</a>
                         </div>
                     </div>
 		    <div class="collapse navbar-collapse" id="mainNavbarTheme">
 			<?php
 				//Set the default active link.
 				$page = 'home';
-				echo include __DIR__ . '/../app/partials/headers/default-navbar-items.html';
+				include __DIR__ . '/../app/partials/headers/default-navbar-items.html';
 			?>
                     </div>
                 </div>
@@ -125,7 +143,7 @@ include __DIR__ . '/../app/partials/head-includes.html';
 
                             <!--Hero title-->
                             <h1 class="display-3 mb-4 mb-lg-5">
-				Industry focused <span class="text-gradient-light">logistics partner.</span> 
+				An industry focused <span class="text-gradient-light">logistics organization.</span> 
 			    </h1>
 
                             <!--Hero description-->
@@ -135,7 +153,7 @@ include __DIR__ . '/../app/partials/head-includes.html';
 
                             <!--Hero action button-->
                             <div class="d-flex align-items-center justify-content-center">
-                                <a href="#section" class="btn btn-primary btn-lg me-2 me-lg-3">Apply Today!</a>
+                                <a href="/Apply" class="btn btn-primary btn-lg me-2 me-lg-3">Join The Red Legion Today!</a>
                             </div>
                         </div>
                     </div>
@@ -153,19 +171,22 @@ include __DIR__ . '/../app/partials/head-includes.html';
             </section>
             <!--/section-->
 
-
-            <section class="position-relative" id="section">
+            <section class="position-relative" id="about">
                 <div class="container py-9 py-lg-11 position-relative">
                     <div class="row justify-content-between align-items-center">
                         <div class="col-lg-6 col-xl-5 order-lg-last mb-7 mb-lg-0">
                             <!--Heading-->
-                            <h2 class="position-relative mb-5 display-6" data-aos="fade-up">
-                                We believe in <span class="text-gradient">timeless</span> authentic design
-                            </h2>
+                            <h3 class="position-relative mb-5 display-6" data-aos="fade-up">
+                                About Us
+                            </h3>
                             <!--text-->
                             <p class="mb-0 lead" data-aos="fade-up" data-aos-delay="100">
-                                Lorem ipsum dolor sit amet, eiusmod tempor quis nostrud
-                                exercitation ullamco commodo consequat.
+                                The mission of <span class="text-gradient-light">The Red Legion</span> is to forge a 
+                                thriving community of industrious gamers within the vast universe of Star Citizen.
+
+                                We are dedicated to embracing and excelling 
+                                in the challenging realm of industrial gameplay, where resource extraction, refining, 
+                                salvaging, and trade take center stage.
                             </p>
                         </div>
                         <div class="col-lg-6 col-xl-5 order-lg-1">
@@ -238,199 +259,11 @@ include __DIR__ . '/../app/partials/head-includes.html';
                 </div>
             </section>
 
-            <!--begin:feature image section-->
-            <section class="position-relative">
-                <div class="container position-relative py-9 py-lg-11">
-                    <div class="row justify-content-between align-items-center">
-                        <div class="col-lg-6 mb-5 mb-lg-0 order-lg-last" data-aos="fade-up" data-aos-delay="50">
-                            <div class="position-relative p-2">
-                                <!--background-parallax-shape-->
-                                <div class="rellax bg-warning width-9x height-9x rounded-circle position-absolute end-0 top-0"
-                                    data-rellax-percentage="0.95" data-rellax-speed="2"></div>
-                                <!--background-parallax-shape-->
-                                <div class="rellax bg-danger width-5x height-5x rounded-circle position-absolute bottom-0 mb-5 start-0"
-                                    data-rellax-percentage="0.1" data-rellax-speed="-1"></div>
-
-                                <!--Shape Image with mask-->
-                                <div class="bg-mask">
-                                    <img src="assets/img/960x900/4.jpg" class="mask-squircle mask-image" alt="">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-5 order-lg-1 position-relative" data-aos="fade-up" data-aos-delay="100">
-                            <!--Heading-->
-                            <h2 class="mb-4 display-6">Build your <span class="text-gradient">unique</span>
-                                online presence</h2>
-
-                                <!--Text-->
-                            <p class="mb-5">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            </p>
-                            <!--Feature-card-->
-                            <div class="d-flex mb-4">
-                                <div class="me-3 mt-1">
-                                    <i class="bi bi-check-circle fs-4"></i>
-                                </div>
-                                <div>
-                                    <p class="mb-0">
-                                        Viverra nam libero justo laoreet uscipit adipiscing bibendum est ultricies
-                                        integer.
-                                    </p>
-                                </div>
-                            </div>
-                            <!--Feature-card-->
-                            <div class="d-flex">
-                                <div class="me-3 mt-1">
-                                    <i class="bi bi-check-circle fs-4"></i>
-                                </div>
-                                <div>
-                                    <p class="mb-0">
-                                        Viverra nam libero justo laoreet uscipit adipiscing bibendum est ultricies
-                                        integer.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!--end:feature image section-->
-
-            <!--begin:projects section-->
-            <section class="position-relative bg-body-tertiary">
-                <div class="container py-9 py-lg-11 position-relative z-1">
-                    <div class="d-lg-flex text-center text-lg-start mb-lg-5">
-                        <!--section-title-->
-                        <h2 class="mb-4 display-6">Latest <span class="text-gradient">Projects</span>
-                        </h2>
-                        <!-- Nav -->
-                        <ul
-                            class="mb-5 mx-auto ms-lg-auto mb-lg-0 nav nav-filter align-items-center justify-content-center justify-content-lg-end me-lg-0">
-                            <li class="nav-item small text-body-secondary d-flex me-2 me-md-4">Filter by:</li>
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#" data-bs-toggle="pill" data-filter="*"
-                                    data-bs-target="#projects">
-                                    Projects
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link small" href="#" data-bs-toggle="pill" data-filter=".bootstrap"
-                                    data-bs-target="#bootstrap">
-                                    Bootstrap
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" data-bs-toggle="pill" data-filter=".javascript"
-                                    data-bs-target="#javascript">
-                                    JS
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" data-bs-toggle="pill" data-filter=".figma"
-                                    data-bs-target="#figma">
-                                    Figma
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div id="projects" data-isotope='{"layoutMode": "masonry"}' class="row">
-
-                        <div class="col-md-6 col-lg-4 mb-4 bootstrap grid-item">
-                            <!--begin:Project card-->
-                            <div class="card-hover">
-                                <div class="overflow-hidden js-mouseover position-relative mb-4 rounded-4">
-                                    <img src="assets/img/projects/1.jpg" alt="" class="img-zoom img-fluid rounded-4">
-                               <a href="#!" class="link-mouseover position-absolute start-0 top-0 flex-center text-dark bg-white rounded-pill">
-                                <i class="bi bi-link-45deg fs-5"></i>
-                               </a>
-                                </div>
-                                <h5 class="mb-1">Sed quia non numquam</h5>
-                                <span class="text-body-secondary">UI / UX</span>
-                            </div>
-                            <!--end:Project card-->
-                        </div>
-                        <div class="col-md-6 col-lg-4 mb-4 figma grid-item">
-                            <!--begin:Project card-->
-                            <div class="card-hover">
-                                <div class="overflow-hidden js-mouseover position-relative mb-4 rounded-4">
-                                    <img src="assets/img/projects/2.jpg" alt="" class="img-zoom img-fluid rounded-4">
-                                    <a href="#!" class="link-mouseover position-absolute start-0 top-0 flex-center text-dark bg-white rounded-pill">
-                                        <i class="bi bi-link-45deg fs-5"></i>
-                                       </a>
-                                </div>
-                                <h5 class="mb-1">Ogólnie znana teza</h5>
-                                <span class="text-body-secondary">Javascript</span>
-                            </div>
-                            <!--end:Project card-->
-                        </div>
-                        <div class="col-md-6 col-lg-4 mb-4 bootstrap grid-item">
-                            <!--begin:Project card-->
-                            <div class="card-hover">
-                                <div class="overflow-hidden js-mouseover position-relative mb-4 rounded-4">
-                                    <img src="assets/img/projects/3.jpg" alt="" class="img-zoom img-fluid rounded-4">
-                                    <a href="#!" class="link-mouseover position-absolute start-0 top-0 flex-center text-dark bg-white rounded-pill">
-                                        <i class="bi bi-link-45deg fs-5"></i>
-                                       </a>
-                                </div>
-                                <h5 class="mb-1">El punto de</h5>
-                                <span class="text-body-secondary">Business, Marketing</span>
-                            </div>
-                            <!--end:Project card-->
-                        </div>
-                        <div class="col-md-6 col-lg-4 mb-4 mb-md-0 figma grid-item">
-                            <!--begin:Project card-->
-                            <div class="card-hover">
-                                <div class="overflow-hidden js-mouseover position-relative mb-4 rounded-4">
-                                    <img src="assets/img/projects/4.jpg" alt="" class="img-zoom img-fluid rounded-4">
-                                    <a href="#!" class="link-mouseover position-absolute start-0 top-0 flex-center text-dark bg-white rounded-pill">
-                                        <i class="bi bi-link-45deg fs-5"></i>
-                                       </a>
-                                </div>
-                                <h5 class="mb-1">Sed quia non numquam</h5>
-                                <span class="text-body-secondary">UI / UX</span>
-                            </div>
-                            <!--end:Project card-->
-                        </div>
-                        <div class="col-md-6 col-lg-4 mb-4 mb-md-0 bootstrap grid-item">
-                            <!--begin:Project card-->
-                            <div class="card-hover">
-                                <div class="overflow-hidden js-mouseover position-relative mb-4 rounded-4">
-                                    <img src="assets/img/projects/5.jpg" alt="" class="img-zoom img-fluid rounded-4">
-                                    <a href="#!" class="link-mouseover position-absolute start-0 top-0 flex-center text-dark bg-white rounded-pill">
-                                        <i class="bi bi-link-45deg fs-5"></i>
-                                       </a>
-                                </div>
-                                <h5 class="mb-1">Excepteur sint occaecat</h5>
-                                <span class="text-body-secondary">Product Design</span>
-                            </div>
-                            <!--end:Project card-->
-                        </div>
-                        <div class="col-md-6 col-lg-4 javascript grid-item">
-                            <!--begin:Project card-->
-                            <div class="card-hover">
-                                <div class="overflow-hidden js-mouseover position-relative mb-4 rounded-4">
-                                    <img src="assets/img/projects/6.jpg" alt="" class="img-zoom img-fluid rounded-4">
-                                    <a href="#!" class="link-mouseover position-absolute start-0 top-0 flex-center text-dark bg-white rounded-pill">
-                                        <i class="bi bi-link-45deg fs-5"></i>
-                                       </a>
-                                </div>
-                                <h5 class="mb-1">Sed quia non numquam</h5>
-                                <span class="text-body-secondary">UI / UX</span>
-                            </div>
-                            <!--end:Project card-->
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!--end:projects section-->
 
             <!--begin:feature icons section-->
-            <section class="overflow-hidden bg-body position-relative">
+            <section class="overflow-hidden bg-body position-relative" id='Partner'>
                 <div class="container position-relative py-9 py-lg-11">
-                    <h2 class="display-6 text-center mb-5">Our <span class="text-gradient">Benefits</span></h2>
+                    <h2 class="display-6 text-center mb-5">Be a Red Legion <span class="text-gradient">Partner</span></h2>
                     <!--feature icons row-->
                     <div class="row justify-content-center">
                         <div class="col-md-6 text-center mb-4" data-aos="fade-up" data-aos-delay="50">
@@ -598,337 +431,6 @@ include __DIR__ . '/../app/partials/head-includes.html';
             </section>
             <!--begin:feature icons section-->
 
-            <!--begin:customer stories section-->
-            <section class="position-relative overflow-hidden">
-                <!--Background half-->
-                <div class="position-absolute start-0 top-0 w-100 h-50 bg-body-tertiary"></div>
-                <div class="container position-relative py-9 py-lg-11">
-                    <div class="row mb-3 mb-md-5 align-items-end">
-                        <div class="col-md-7 mb-5 mb-md-0">
-                            <!--Title-->
-                            <h2 class="mb-0 display-6"><span class="text-gradient">Customer</span> Stories</h2>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="d-flex align-items-center justify-content-md-end">
-                                <!--Swiper Navigation-->
-                                <div
-                                    class="swiper-button-prev swiperAuto-button-prev me-2 bg-body text-body position-relative start-0">
-                                </div>
-                                <div
-                                    class="swiper-button-next swiperAuto-button-next bg-body text-body position-relative end-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-container swiper-testimonials overflow-visible">
-                        <div class="swiper-wrapper">
-
-                            <!--Slider item-->
-                            <div class="swiper-slide">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div
-                                            class="card rounded-top-start-0 rounded-bottom-end-0 rounded-block shadow-lg flex-md-row flex-column overflow-hidden border-0 bg-body">
-                                            <div class="col-md-4">
-                                                <div
-                                                    class="d-flex flex-column border-end-md p-5 align-items-center justify-content-center h-100 bg-success">
-                                                    <img src="assets/img/partners/dark/deliveroo.svg" alt=""
-                                                        class="height-5x w-auto img-invert">
-                                                </div>
-                                            </div>
-                                            <div class="card-body h-100 p-4 py-5 py-md-7 px-md-5 flex-grow-1">
-                                                <div class="d-md-flex align-items-md-center">
-                                                    <div class="ms-md-n9">
-                                                        <img src="assets/img/avatar/1.jpg" alt=""
-                                                            class="avatar lg p-1 bg-body shadow-lg rounded-circle mb-4">
-                                                    </div>
-                                                    <div class="ps-md-6 px-lg-10 px-xl-12">
-                                                        <p class="fs-4 font-serif mb-4">
-                                                            “ Loved working with the beautiful theme. Everything clean
-                                                            and professional,
-                                                            also very helpful throughout the customisation. Looking
-                                                            forward to buy more
-                                                            license of Assan again in the future.”
-                                                        </p>
-                                                        <div class="mb-5">
-                                                            <h5 class="mb-2">Anastasia</h5>
-                                                            <small class="d-block lh-1 text-body-secondary"> at Deliveroo</small>
-                                                        </div>
-                                                        <a href="#"
-                                                            class="btn btn-secondary rounded-pill btn-hover-arrow">
-                                                            <span>Read full story</span>
-
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!--Slider item-->
-                            <div class="swiper-slide">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div
-                                            class="card rounded-top-start-0 rounded-bottom-end-0 rounded-block shadow-lg flex-md-row flex-column overflow-hidden border-0 bg-body">
-                                            <div class="col-md-4">
-                                                <div
-                                                    class="d-flex flex-column border-end-md p-5 align-items-center justify-content-center h-100 bg-secondary-subtle">
-                                                    <img src="assets/img/partners/postmates.svg" alt=""
-                                                        class="height-5x w-auto img-invert">
-                                                </div>
-                                            </div>
-                                            <div class="card-body h-100 p-4 py-5 py-md-7 px-md-5 flex-grow-1">
-                                                <div class="d-md-flex align-items-md-center">
-                                                    <div class="ms-md-n9">
-                                                        <img src="assets/img/avatar/2.jpg" alt=""
-                                                            class="avatar lg p-1 bg-body shadow-lg rounded-circle mb-4">
-                                                    </div>
-                                                    <div class="ps-md-6 px-lg-10 px-xl-12">
-                                                        <p class="fs-4 font-serif mb-4">
-                                                            “ Loved working with the beautiful theme. Everything clean
-                                                            and professional,
-                                                            also very helpful throughout the customisation. Looking
-                                                            forward to buy more
-                                                            license of Assan again in the future.”
-                                                        </p>
-                                                        <div class="mb-5">
-                                                            <h5 class="mb-2">Emily doe</h5>
-                                                            <small class="d-block lh-1 text-body-secondary"> at Postmates</small>
-                                                        </div>
-                                                        <a href="#"
-                                                            class="btn btn-secondary rounded-pill btn-hover-arrow">
-                                                            <span>Read full story</span>
-
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!--Slider item-->
-                            <div class="swiper-slide">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div
-                                            class="card rounded-top-start-0 rounded-bottom-end-0 rounded-block shadow-lg flex-md-row flex-column overflow-hidden border-0 bg-body">
-                                            <div class="col-md-4">
-                                                <div
-                                                    class="d-flex flex-column border-end-md p-5 align-items-center justify-content-center h-100 bg-info">
-                                                    <img src="assets/img/partners/dark/microsoft.svg" alt=""
-                                                        class="height-5x w-auto img-invert">
-                                                </div>
-                                            </div>
-                                            <div class="card-body h-100 p-4 py-5 py-md-7 px-md-5 flex-grow-1">
-                                                <div class="d-md-flex align-items-md-center">
-                                                    <div class="ms-md-n9">
-                                                        <img src="assets/img/avatar/3.jpg" alt=""
-                                                            class="avatar lg p-1 bg-body shadow-lg rounded-circle mb-4">
-                                                    </div>
-                                                    <div class="ps-md-6 px-lg-10 px-xl-12">
-                                                        <p class="fs-4 font-serif mb-4">
-                                                            “ Loved working with the beautiful theme. Everything clean
-                                                            and professional,
-                                                            also very helpful throughout the customisation. Looking
-                                                            forward to buy more
-                                                            license of Assan again in the future.”
-                                                        </p>
-                                                        <div class="mb-5">
-                                                            <h5 class="mb-2">Sabrina</h5>
-                                                            <small class="d-block lh-1 text-body-secondary"> at Microsoft</small>
-                                                        </div>
-                                                        <a href="#"
-                                                            class="btn btn-secondary rounded-pill btn-hover-arrow">
-                                                            <span>Read full story</span>
-
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div
-                        class="swiperAuto-pagination swiper-pagination w-100 text-center position-relative mb-0 mt-5 bottom-0 pb-0">
-                    </div>
-                </div>
-            </section>
-            <!--end:customer stories section-->
-
-            <!--begin:news section-->
-            <section class="position-relative">
-                <!--begin:Background Half-->
-                <div class="position-absolute start-0 top-0 w-100 h-50 bg-gradient bg-secondary"></div>
-                <!--end:Background Half-->
-                <div class="container position-relative py-9 py-lg-11 z-1">
-                    <div class="row mb-5 align-items-center">
-                        <div class="col-md-7 mb-4 mb-md-0" data-aos="fade-up">
-                            <!--Title-->
-                            <h2 class="text-white display-6" data-aos="fade-up">Latest <span
-                                    class="text-gradient-light">News</span></h2>
-                        </div>
-                        <div class="col-md-5 text-md-end" data-aos="fade-up">
-                            <!--action button-->
-                            <a href="#!"
-                                class="btn btn-outline-white btn-rise p-0 width-10x height-10x flex-center rounded-circle">
-                                <div class="btn-rise-bg bg-white"></div>
-                                <div class="btn-rise-text"><span class="small">View blog</span></div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-4 mb-4 mb-lg-0" data-aos="fade-up">
-                            <article
-                                class="card card-hover text-center hover-shadow-lg overflow-hidden border-0 rounded-4 shadow-sm">
-                                <div class="overflow-hidden position-relative">
-
-                                    <!--Article image-->
-                                    <img src="assets/img/960x640/1.jpg" alt="" class="img-fluid img-zoom">
-
-                                    <!--Article image divider-->
-                                    <svg class="position-absolute start-0 bottom-0 mb-n1" style="color: var(--bs-body-bg);"
-                                        preserveAspectRatio="none" width="100%" height="48" viewBox="0 0 1460 120"
-                                        fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M122 22.8261L0 0V120H1460V0L1338 22.8261C1217 44.1304 973 88.2609 730 88.2609C487 88.2609 243 44.1304 122 22.8261Z"
-                                            fill="currentColor"></path>
-                                    </svg>
-                                </div>
-                                <!--Content-body-->
-                                <div class="card-body pb-5 position-relative">
-                                    <small class="text-body-secondary"><i class="bi bi-calendar me-1"></i> 12 June
-                                        2025</small>
-                                    <h5 class="py-3 mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-                                    <p class="mb-0 text-truncate px-lg-4">
-                                        Lorem ipsum dolor sit amet sed do eiusmod tempor labore et dolore magna aliqua.
-                                        Viverra nam libero justo laoreet.
-                                    </p>
-                                </div>
-
-                                <!--Article link-->
-                                <a href="#!" class="stretched-link"></a>
-                            </article>
-                        </div>
-                        <div class="col-lg-4 mb-4 mb-lg-0" data-aos="fade-up">
-                            <article
-                                class="card card-hover text-center hover-shadow-lg overflow-hidden border-0 rounded-4 shadow-sm">
-                                <div class="overflow-hidden position-relative">
-
-                                    <!--Article image-->
-                                    <img src="assets/img/960x640/2.jpg" alt="" class="img-fluid img-zoom">
-
-                                    <!--Article image divider-->
-                                    <svg class="position-absolute start-0 bottom-0 mb-n1" style="color: var(--bs-body-bg);"
-                                        preserveAspectRatio="none" width="100%" height="48" viewBox="0 0 1460 120"
-                                        fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M122 22.8261L0 0V120H1460V0L1338 22.8261C1217 44.1304 973 88.2609 730 88.2609C487 88.2609 243 44.1304 122 22.8261Z"
-                                            fill="currentColor"></path>
-                                    </svg>
-                                </div>
-                                <!--Article text-->
-                                <div class="card-body pb-5 position-relative">
-                                    <small class="text-body-secondary"><i class="bi bi-calendar me-1"></i> 06 June
-                                        2025</small>
-                                    <h5 class="py-3 mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-                                    <p class="mb-0 text-truncate px-lg-4">
-                                        Lorem ipsum dolor sit amet sed do eiusmod tempor labore et dolore magna aliqua.
-                                        Viverra nam libero justo laoreet.
-                                    </p>
-                                </div>
-
-                                <!--Article link-->
-                                <a href="#!" class="stretched-link"></a>
-                            </article>
-                        </div>
-                        <div class="col-lg-4" data-aos="fade-up">
-                            <article
-                                class="card card-hover text-center hover-shadow-lg overflow-hidden border-0 rounded-4 shadow-sm">
-                                <div class="overflow-hidden position-relative">
-
-                                    <!--Article image-->
-                                    <img src="assets/img/960x640/3.jpg" alt="" class="img-fluid img-zoom">
-
-                                    <!--Article image divider-->
-                                    <svg class="position-absolute mb-n1 start-0 bottom-0"  style="color: var(--bs-body-bg);"
-                                        preserveAspectRatio="none" width="100%" height="48" viewBox="0 0 1460 120"
-                                        fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M122 22.8261L0 0V120H1460V0L1338 22.8261C1217 44.1304 973 88.2609 730 88.2609C487 88.2609 243 44.1304 122 22.8261Z"
-                                            fill="currentColor"></path>
-                                    </svg>
-                                </div>
-
-                                <!--Article text-->
-                                <div class="card-body pb-5 position-relative">
-                                    <small class="text-body-secondary"><i class="bi bi-calendar me-1"></i> 29 May
-                                        2025</small>
-                                    <h5 class="py-3 mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-                                    <p class="mb-0 text-truncate px-lg-4">
-                                        Lorem ipsum dolor sit amet sed do eiusmod tempor labore et dolore magna aliqua.
-                                        Viverra nam libero justo laoreet.
-                                    </p>
-                                </div>
-                                <!--Article link-->
-                                <a href="#!" class="stretched-link"></a>
-                            </article>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!--end: news section-->
-
-            <!--Begin: call to action-->
-            <section class="position-relative border-bottom">
-                <!--begin:parallax Triangle shape-->
-                <div class="rellax d-table position-absolute start-0 top-0 ms-1 mt-n5 mt-lg-4 ms-lg-12 text-warning"
-                    data-rellax-speed="2" data-rellax-percentage="0.9">
-                    <svg class="" width="44" height="44" viewBox="0 0 104 104" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8.64453 8.64453L92.2962 31.0589L31.0589 92.2962L8.64453 8.64453Z"
-                            stroke="currentColor" stroke-width="8" />
-                    </svg>
-                    <!--end:parallax Triangle shape-->
-                </div>
-
-                <!--begin: parallax Circle shape-->
-                <div class="rellax d-table position-absolute end-0 bottom-0 mb-3 me-3 me-lg-9 mb-lg-9 text-success"
-                    data-rellax-speed="-1" data-rellax-percentage="0.5">
-                    <svg class="" width="36" height="36" viewBox="0 0 108 108" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="54" cy="54" r="50" stroke="currentColor" stroke-width="8" />
-                    </svg>
-                </div>
-                <!--end: parallax Circle shape-->
-
-                <div class="container pb-9 pb-lg-11 position-relative">
-                    <div class="row justify-content-center text-center">
-                        <div class="col-lg-10 col-xl-8">
-                            <!--CTA Title-->
-                            <h3 class="display-6 mb-7" data-aos="fade-up">Schedule a meeting with one of
-                                our experts and make the <span class="text-gradient">best decision</span> for your
-                                business.</h3>
-
-                            <!--CTA action button-->
-                            <div data-aos="fade-up">
-                                <a href="#!"
-                                    class="btn bg-gradient-primary text-white hover-lift hover-shadow-lg btn-lg border-0">
-                                    Schedule a meeting
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!--end: call to action-->
         </main>
 
         <?php
@@ -949,36 +451,6 @@ include __DIR__ . '/../app/partials/head-includes.html';
         <script src="assets/js/theme.bundle.min.js"></script>
         <!-- end:main script -->
 
-        <!--begin:Swiper slider-->
-        <script src="assets/vendor/node_modules/js/swiper-bundle.min.js"></script>
-        <script>
-            //swiper-testimonials
-            var swiperAuto = new Swiper(".swiper-testimonials", {
-                slidesPerView: "auto",
-                loop: true,
-                centeredSlides: true,
-                spaceBetween: 16,
-                pagination: {
-                    el: ".swiperAuto-pagination",
-                    clickable: true,
-                },
-                navigation: {
-                    nextEl: ".swiperAuto-button-next",
-                    prevEl: ".swiperAuto-button-prev",
-                }
-            });
-            
-            //Swiper for text/headings
-            var swiperText = new Swiper(".swiper-text", {
-                autoplay: true,
-                direction: "vertical",
-                loop: true,
-                grabCursor: false,
-                speed: 600
-            });
-
-        </script>
-        <!--end:Swiper slider-->
     </body>
 
 </html>
