@@ -268,7 +268,7 @@ include __DIR__ . '/../app/partials/head-includes.html';
             <!--begin:join section-->
             <section class="position-relative">
                 <div class="container position-relative py-9 py-lg-11">
-                    <div class="row justify-content-between align-items-center">
+                    <div class="row justify-content-between align-items-center" id='apply'>
                         <div class="col-lg-6 mb-5 mb-lg-0 order-lg-last" data-aos="fade-up" data-aos-delay="50">
                             <div class="position-relative p-2">
                                 <!--background-parallax-shape-->
@@ -286,13 +286,13 @@ include __DIR__ . '/../app/partials/head-includes.html';
                         </div>
                         <div class="col-lg-5 order-lg-1 position-relative" data-aos="fade-up" data-aos-delay="100">
                             <!--Heading-->
-                            <h2 class="mb-4 display-6" id='Apply'>Join <span class="text-gradient">The Red Legion</span>!</h2>
+                            <h2 class="mb-4 display-6">Join <span class="text-gradient">The Red Legion</span>!</h2>
 
                                 <!--Text-->
                             <p class="mb-5">
                                 The Red Legion is a thriving Star Citizen organization with hundreds of members 
                                 worldwide, active across nearly every time zone. Whether you’re into industry—salvage, 
-                                trade, mining, logistics, or medical—or prefer combat and security with Task Force Red, 
+                                trade, mining, logistics, or medical—or prefer combat and security with Taskforce Red, 
                                 there’s a place for you here. We bring strong “Space Dads” vibes: mature, drama-free, 
                                 and welcoming to anyone who wants to relax, fly with good people, and build something 
                                 lasting. Whatever your experience level, you’ll always have backup when you fly with 
@@ -454,7 +454,7 @@ include __DIR__ . '/../app/partials/head-includes.html';
                                 <h5 class="mb-0">Security &amp; Escorts</h5>
                             </div>
                             <p class="mb-0 w-lg-75 mx-auto">
-                                Keep your assets safe with Task Force Red providing armed escorts and defensive support.
+                                Keep your assets safe with Taskforce Red providing armed escorts and defensive support.
                             </p>
                             </div>
                         </div>
