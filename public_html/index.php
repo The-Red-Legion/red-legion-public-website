@@ -79,7 +79,11 @@ include __DIR__ . '/../app/partials/head-includes.html';
                         </div>
 
                         <div class="nav-item me-2 d-none d-xl-flex">
-                            <a href="/Login" class="btn btn-danger btn-sm">Staff Login</a>
+                            <a href="/Apply" class="btn btn-success btn-sm rounded-pill">Apply Today!</a>
+                        </div>
+
+                        <div class="nav-item me-2 d-none d-xl-flex">
+                            <a href="/Login" class="btn btn-danger btn-sm rounded-pill">Staff Login</a>
                         </div>
                     </div>
 		    <div class="collapse navbar-collapse" id="mainNavbarTheme">
@@ -171,6 +175,7 @@ include __DIR__ . '/../app/partials/head-includes.html';
             </section>
             <!--/section-->
 
+            <!--end:about section-->
             <section class="position-relative" id="about">
                 <div class="container py-9 py-lg-11 position-relative">
                     <div class="row justify-content-between align-items-center">
@@ -254,18 +259,103 @@ include __DIR__ . '/../app/partials/head-includes.html';
                                 </div>
                             </div>
                         </div>
-                    </div>
-
+</div>
                 </div>
             </section>
+            <!--end:about section-->
 
 
-            <!--begin:feature icons section-->
+            <!--begin:join section-->
+            <section class="position-relative">
+                <div class="container position-relative py-9 py-lg-11">
+                    <div class="row justify-content-between align-items-center">
+                        <div class="col-lg-6 mb-5 mb-lg-0 order-lg-last" data-aos="fade-up" data-aos-delay="50">
+                            <div class="position-relative p-2">
+                                <!--background-parallax-shape-->
+                                <div class="rellax bg-danger width-9x height-9x rounded-circle position-absolute end-0 top-0"
+                                    data-rellax-percentage="0.95" data-rellax-speed="2"></div>
+                                <!--background-parallax-shape-->
+                                <div class="rellax bg-danger width-5x height-5x rounded-circle position-absolute bottom-0 mb-5 start-0"
+                                    data-rellax-percentage="0.1" data-rellax-speed="-1"></div>
+
+                                <!--Shape Image with mask-->
+                                <div class="bg-mask">
+                                    <img src="assets/img/960x900/4.jpg" class="mask-squircle mask-image" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 order-lg-1 position-relative" data-aos="fade-up" data-aos-delay="100">
+                            <!--Heading-->
+                            <h2 class="mb-4 display-6" id='Apply'>Join <span class="text-gradient">The Red Legion</span>!</h2>
+
+                                <!--Text-->
+                            <p class="mb-5">
+                                The Red Legion is a thriving Star Citizen organization with hundreds of members 
+                                worldwide, active across nearly every time zone. Whether you’re into industry—salvage, 
+                                trade, mining, logistics, or medical—or prefer combat and security with Task Force Red, 
+                                there’s a place for you here. We bring strong “Space Dads” vibes: mature, drama-free, 
+                                and welcoming to anyone who wants to relax, fly with good people, and build something 
+                                lasting. Whatever your experience level, you’ll always have backup when you fly with 
+                                The Red Legion.
+                            </p>
+                            <!--Feature-card-->
+                            <div class="d-flex mb-4">
+                                <div class="me-3 mt-1">
+                                    <i class="bi bi-globe fs-4"></i>
+                                </div>
+                                <div>
+                                    <p class="mb-0">
+                                        Global membership across most time zones—easy to find someone to squad up with.
+                                    </p>
+                                </div>
+                            </div>
+                            <!--Feature-card-->
+                            <div class="d-flex mb-4">
+                                <div class="me-3 mt-1">
+                                    <i class="bi bi-arrow-left-right fs-4"></i>
+                                </div>
+                                <div>
+                                    <p class="mb-0">
+                                        Multi-path progression: Whether you want to specialize in a single career 
+                                        loop or dabble across many, we support your journey.
+                                    </p>
+                                </div>
+                            </div>
+                            <!--Feature-card-->
+                            <div class="d-flex">
+                                <div class="me-3 mt-1">
+                                    <i class="bi bi-calendar-check fs-4"></i>
+                                </div>
+                                <div>
+                                    <p class="mb-0">
+                                        Organized events: Regularly scheduled ops, plus spontaneous “drop-in” 
+                                        sessions so you can join at your own pace.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <br>
+                        <div class="d-flex align-items-center justify-content-center">
+                            <a href="/Apply" class="btn btn-primary btn-lg me-2 me-lg-3">Join The Red Legion Today!</a>
+                        </div>
+                </div>
+            </section>
+            <!--end:join section-->
+
+
+            <!--begin:partner section-->
             <section class="overflow-hidden bg-body position-relative" id='Partner'>
                 <div class="container position-relative py-9 py-lg-11">
-                    <h2 class="display-6 text-center mb-5">Be a Red Legion <span class="text-gradient">Partner</span></h2>
+                    <h2 class="display-6 text-center mb-5">Be a <span class="text-gradient">Red Legion</span> Partner</h2>
                     <!--feature icons row-->
                     <div class="row justify-content-center">
+                        <p class="mb-5" style="max-width: 800px;">
+                                Looking for more than just a crew? The Red Legion offers a full suite of professional services 
+                                across the ‘verse. With hundreds of active members, proven expertise, and reliable operations,
+                                we’re the ally you need to keep your business moving forward.  When you partner with The Red 
+                                Legion, you’re gaining a dependable force committed to professionalism, accountability, and results.
+                            </p>
                         <div class="col-md-6 text-center mb-4" data-aos="fade-up" data-aos-delay="50">
                             <!--Icon card-->
                             <div class="card card-body py-5 px-4 border-0 shadow-lg hover-lift hover-shadow-xl">
@@ -280,14 +370,13 @@ include __DIR__ . '/../app/partials/head-includes.html';
                                         fill="currentColor" />
                                 </svg>
                                 <!--Icon-->
-                                <i class="icon-Idea-3 fs-1 text-white position-relative"></i>
+                                <i class="bi bi-gem fs-1 text-white position-relative"></i>
                             </div>
                             <div class="d-flex align-items-center mb-3 justify-content-center">
-                                <h5 class="mb-0">Creative & elegant</h5>
+                                <h5 class="mb-0">Resource Supply</h5>
                             </div>
                             <p class="mb-0 w-lg-75 mx-auto">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+                                From raw ore to refined minerals, we can source and deliver the materials you need, when you need them.
                             </p>
                             </div>
                         </div>
@@ -304,16 +393,15 @@ include __DIR__ . '/../app/partials/head-includes.html';
                                         fill="currentColor" />
                                 </svg>
                                 <!--Icon-->
-                                <i class="icon-Code-Window text-white fs-2 position-relative"></i>
+                                <i class="bi bi-truck text-white fs-2 position-relative"></i>
                             </div>
 
                             <!--Feature Text-->
                             <div class="d-flex align-items-center mb-3 justify-content-center">
-                                <h5 class="mb-0">Reusable components</h5>
+                                <h5 class="mb-0">Hauling &amp; Logistics</h5>
                             </div>
                             <p class="mb-0 w-lg-75 mx-auto">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+                                Whether it’s a single run or long-term contracts, we move cargo with precision and efficiency.
                             </p>
                             </div>
                         </div>
@@ -331,16 +419,16 @@ include __DIR__ . '/../app/partials/head-includes.html';
                                         fill="currentColor" />
                                 </svg>
                                 <!--Icon-->
-                                <i class="icon-Layer-Forward text-white fs-1 position-relative"></i>
+                                <i class="bi bi-people text-white fs-1 position-relative"></i>
                             </div>
 
                             <!--Feature Text-->
                             <div class="d-flex align-items-center mb-3 justify-content-center">
-                                <h5 class="mb-0">Unlimited features</h5>
+                                <h5 class="mb-0">Consulting &amp; Training</h5>
                             </div>
                             <p class="mb-0 w-lg-75 mx-auto">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+                                Tap into our experience with strategy, logistics, and operations to level up your 
+                                organization or crew.
                             </p>
                             </div>
                         </div>
@@ -358,78 +446,26 @@ include __DIR__ . '/../app/partials/head-includes.html';
                                         fill="currentColor" />
                                 </svg>
                                 <!--Icon-->
-                                <i class="icon-Coffee-toGo text-white fs-1 position-relative"></i>
+                                <i class="bi bi-shield-lock text-white fs-1 position-relative"></i>
                             </div>
 
                             <!--Feature Text-->
                             <div class="d-flex align-items-center mb-3 justify-content-center">
-                                <h5 class="mb-0">Modern build tools</h5>
+                                <h5 class="mb-0">Security &amp; Escorts</h5>
                             </div>
                             <p class="mb-0 w-lg-75 mx-auto">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
-                            </p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 text-center mb-4 mb-md-0" data-aos="fade-up" data-aos-delay="250">
-
-                           <div class="card card-body py-5 px-4 border-0 shadow-lg hover-lift hover-shadow-xl">
-                             <!--Feature icon-->
-                             <div class="mb-4 mx-auto width-10x height-10x flex-center position-relative">
-                                <!--Icon bg-->
-                                <svg class="position-absolute text-primary start-0 top-0 w-100 h-100"
-                                    preserveAspectRatio="none" width="120" height="120" viewBox="0 0 120 120"
-                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M55.4078 1.90215C58.3481 0.684225 61.6519 0.684225 64.5922 1.90215L97.8342 15.6714C100.775 16.8894 103.111 19.2255 104.329 22.1658L118.098 55.4078C119.316 58.3481 119.316 61.6519 118.098 64.5922L104.329 97.8342C103.111 100.775 100.775 103.111 97.8342 104.329L64.5922 118.098C61.6519 119.316 58.3481 119.316 55.4078 118.098L22.1658 104.329C19.2255 103.111 16.8894 100.775 15.6714 97.8342L1.90215 64.5922C0.684225 61.6519 0.684225 58.3481 1.90215 55.4078L15.6714 22.1658C16.8894 19.2255 19.2255 16.8894 22.1658 15.6714L55.4078 1.90215Z"
-                                        fill="currentColor" />
-                                </svg>
-                                <!--Icon-->
-                                <i class="icon-Consulting fs-1 text-white position-relative"></i>
-                            </div>
-
-                            <!--Feature Text-->
-                            <div class="d-flex align-items-center mb-3 justify-content-center">
-                                <h5 class="mb-0">Instant support</h5>
-                            </div>
-                            <p class="mb-0 w-lg-75 mx-auto">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
-                            </p>
-                           </div>
-                        </div>
-                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
-                            <div class="card card-body py-5 px-4 border-0 shadow-lg hover-lift hover-shadow-xl">
-                                
-                            <!--Feature icon-->
-                            <div class="mb-4 mx-auto width-10x height-10x flex-center position-relative">
-                                <!--Icon bg-->
-                                <svg class="position-absolute text-primary start-0 top-0 w-100 h-100"
-                                    preserveAspectRatio="none" width="120" height="120" viewBox="0 0 120 120"
-                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M55.4078 1.90215C58.3481 0.684225 61.6519 0.684225 64.5922 1.90215L97.8342 15.6714C100.775 16.8894 103.111 19.2255 104.329 22.1658L118.098 55.4078C119.316 58.3481 119.316 61.6519 118.098 64.5922L104.329 97.8342C103.111 100.775 100.775 103.111 97.8342 104.329L64.5922 118.098C61.6519 119.316 58.3481 119.316 55.4078 118.098L22.1658 104.329C19.2255 103.111 16.8894 100.775 15.6714 97.8342L1.90215 64.5922C0.684225 61.6519 0.684225 58.3481 1.90215 55.4078L15.6714 22.1658C16.8894 19.2255 19.2255 16.8894 22.1658 15.6714L55.4078 1.90215Z"
-                                        fill="currentColor" />
-                                </svg>
-                                <!--Icon-->
-                                <i class="icon-Coding fs-1 text-white position-relative"></i>
-                            </div>
-
-                            <!--Feature Text-->
-                            <div class="d-flex align-items-center mb-3 justify-content-center">
-                                <h5 class="mb-0">Valid code</h5>
-                            </div>
-                            <p class="mb-0 w-lg-75 mx-auto">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+                                Keep your assets safe with Task Force Red providing armed escorts and defensive support.
                             </p>
                             </div>
                         </div>
                     </div>
-
+                    <br>
+                    <div class="d-flex align-items-center justify-content-center">
+                            <a href="https://discord.gg/RedLegion" target='_blank' class="btn btn-primary btn-lg me-2 me-lg-3">Contact Us on Discord!</a>
+                        </div>
                 </div>
             </section>
-            <!--begin:feature icons section-->
+            <!--end:partner section-->
 
         </main>
 
