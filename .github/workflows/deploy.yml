@@ -96,4 +96,4 @@ jobs:
 
         echo "🎉 Deployment completed!"
         echo "Website: http://dev.redlegion.gg/"
-        echo "phpMyAdmin: http://dev.redlegion.gg/phpmyadmin"
+        echo "phpMyAdmin: http://dev.redlegion.gg/pma"
