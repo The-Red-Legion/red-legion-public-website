@@ -46,14 +46,8 @@ jobs:
         gcloud compute scp --recurse app ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
         gcloud compute scp composer.json ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
 
-        echo "Installing website files..."
-        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "
-          sudo cp -r /tmp/public_html/* /opt/red-legion-website/public_html/
-          sudo cp -r /tmp/app /opt/red-legion-website/
-          sudo cp /tmp/composer.json /opt/red-legion-website/
-
-          # Create production .env file with Discord OAuth configuration
-          cat > /tmp/.env << EOF
+        echo "Creating production .env file..."
+        cat > /tmp/.env << EOF
 APP_ENV=prod
 APP_NAME=The Red Legion Public Website
 APP_TZ=UTC
@@ -67,6 +61,15 @@ DISCORD_BOT_TOKEN=${{ secrets.DISCORD_TOKEN }}
 # Red Legion Discord Server ID
 RED_LEGION_GUILD_ID=814699481912049704
 EOF
+
+        echo "Copying .env file to server..."
+        gcloud compute scp /tmp/.env ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
+
+        echo "Installing website files..."
+        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "
+          sudo cp -r /tmp/public_html/* /opt/red-legion-website/public_html/
+          sudo cp -r /tmp/app /opt/red-legion-website/
+          sudo cp /tmp/composer.json /opt/red-legion-website/
           sudo mv /tmp/.env /opt/red-legion-website/.env
 
           sudo chown -R www-data:www-data /opt/red-legion-website
