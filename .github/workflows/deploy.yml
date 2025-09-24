@@ -24,62 +24,44 @@ jobs:
       with:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
 
+    - name: Setup Python and Ansible
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install Ansible
+      run: |
+        pip install ansible
+        pip install google-auth
+
     - name: Test SSH connectivity
       run: |
         echo "Testing SSH connection to web server..."
         gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "echo 'SSH connection successful!'" --ssh-flag="-o ConnectTimeout=10"
 
-    - name: Deploy website with simple script
+    - name: Create gcloud SSH wrapper
       run: |
-        echo "Copying deployment script to server..."
-        gcloud compute scp deploy.sh ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
+        cat > gcloud-ssh-wrapper.sh << 'EOF'
+        #!/bin/bash
+        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --ssh-flag="-o StrictHostKeyChecking=no" -- "$@"
+        EOF
+        chmod +x gcloud-ssh-wrapper.sh
 
-        echo "Running lightweight deployment..."
-        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "
-          chmod +x /tmp/deploy.sh
-          /tmp/deploy.sh
-          rm -f /tmp/deploy.sh
-        "
-
-        echo "Copying website files to server..."
-        gcloud compute scp --recurse public_html ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
-        gcloud compute scp --recurse app ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
-        gcloud compute scp composer.json ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
-
-        echo "Creating production .env file..."
-        echo "APP_ENV=prod" > /tmp/.env
-        echo "APP_NAME=The Red Legion Public Website" >> /tmp/.env
-        echo "APP_TZ=UTC" >> /tmp/.env
-        echo "" >> /tmp/.env
-        echo "# Discord OAuth Configuration" >> /tmp/.env
-        echo "DISCORD_CLIENT_ID=${{ secrets.DISCORD_CLIENT_ID }}" >> /tmp/.env
-        echo "DISCORD_CLIENT_SECRET=${{ secrets.DISCORD_CLIENT_SECRET }}" >> /tmp/.env
-        echo "DISCORD_REDIRECT_URI=${{ secrets.DISCORD_REDIRECT_URI }}" >> /tmp/.env
-        echo "DISCORD_BOT_TOKEN=${{ secrets.DISCORD_TOKEN }}" >> /tmp/.env
-        echo "" >> /tmp/.env
-        echo "# Red Legion Discord Server ID" >> /tmp/.env
-        echo "RED_LEGION_GUILD_ID=814699481912049704" >> /tmp/.env
-
-        echo "Copying .env file to server..."
-        gcloud compute scp /tmp/.env ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
-
-        echo "Installing website files..."
-        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "
-          sudo cp -r /tmp/public_html/* /opt/red-legion-website/public_html/
-          sudo cp -r /tmp/app /opt/red-legion-website/
-          sudo cp /tmp/composer.json /opt/red-legion-website/
-          sudo mv /tmp/.env /opt/red-legion-website/.env
-
-          sudo chown -R www-data:www-data /opt/red-legion-website
-          sudo chmod 600 /opt/red-legion-website/.env
-
-          # Install composer dependencies
-          cd /opt/red-legion-website
-          sudo -u www-data composer install --no-dev --optimize-autoloader
-
-          # Clean up temp files
-          rm -rf /tmp/public_html /tmp/app /tmp/composer.json
-        "
+    - name: Deploy website with Ansible
+      run: |
+        export ANSIBLE_SSH_EXECUTABLE=./gcloud-ssh-wrapper.sh
+        cd ansible
+        ansible-playbook -i inventory.ini deploy.yml \
+          -e db_name=red_legion_website \
+          -e db_user=website_user \
+          -e db_pass=temp_password_to_be_changed \
+          -e discord_client_id="${{ secrets.DISCORD_CLIENT_ID }}" \
+          -e discord_client_secret="${{ secrets.DISCORD_CLIENT_SECRET }}" \
+          -e discord_redirect_uri="${{ secrets.DISCORD_REDIRECT_URI }}" \
+          -e discord_bot_token="${{ secrets.DISCORD_TOKEN }}" \
+          -e pma_password=pmapassword_change_me \
+          -e admin_password=RedLegion2024! \
+          --ssh-extra-args="-o StrictHostKeyChecking=no"
 
     - name: Verify deployment
       run: |

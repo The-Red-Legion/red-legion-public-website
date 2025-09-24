@@ -190,10 +190,20 @@
             login_unix_socket: /var/run/mysqld/mysqld.sock
           become_user: root
 
+        - name: Create phpMyAdmin control user
+          mysql_user:
+            name: "pma"
+            password: "{{ pma_password | default('pmapassword_change_me') }}"
+            priv: "phpmyadmin.*:SELECT,INSERT,UPDATE,DELETE"
+            host: localhost
+            state: present
+            login_unix_socket: /var/run/mysqld/mysqld.sock
+          become_user: root
+
         - name: Create phpMyAdmin admin user
           mysql_user:
             name: "admin"
-            password: "RedLegion2024!"
+            password: "{{ admin_password | default('RedLegion2024!') }}"
             priv: "*.*:ALL,GRANT"
             host: localhost
             state: present
@@ -234,7 +244,7 @@
         - name: Create phpMyAdmin symlink in website
           file:
             src: /usr/share/phpmyadmin
-            dest: "{{ app_dir }}/public_html/phpmyadmin"
+            dest: "{{ app_dir }}/public_html/pma"
             state: link
             force: yes
 
@@ -412,7 +422,7 @@
         echo ""
         echo "Website and phpMyAdmin access:"
         echo "Main site: http://dev.redlegion.gg/"
-        echo "phpMyAdmin: http://dev.redlegion.gg/phpmyadmin"
+        echo "phpMyAdmin: http://dev.redlegion.gg/pma"
         echo "Management portal: http://dev.redlegion.gg/management/"
         echo ""
         echo "Database credentials:"
