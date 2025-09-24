@@ -104,6 +104,30 @@ jobs:
           # Create phpMyAdmin symlink
           sudo ln -sf /usr/share/phpmyadmin /opt/red-legion-website/public_html/pma
 
+          # Configure phpMyAdmin (only if not already done)
+          if [ ! -f /etc/phpmyadmin/config-db.php ]; then
+            echo 'Setting up phpMyAdmin configuration...'
+            sudo mysql -e 'CREATE DATABASE IF NOT EXISTS phpmyadmin;'
+            sudo mysql phpmyadmin < /usr/share/phpmyadmin/sql/create_tables.sql 2>/dev/null || true
+            sudo mysql -e \"CREATE USER IF NOT EXISTS 'pma'@'localhost' IDENTIFIED BY 'pmapassword_change_me';\"
+            sudo mysql -e \"GRANT SELECT, INSERT, UPDATE, DELETE ON phpmyadmin.* TO 'pma'@'localhost';\"
+            sudo mysql -e \"FLUSH PRIVILEGES;\"
+
+            sudo tee /etc/phpmyadmin/config-db.php > /dev/null << 'PHPEOF'
+<?php
+\$dbuser='pma';
+\$dbpass='pmapassword_change_me';
+\$basepath='';
+\$dbname='phpmyadmin';
+\$dbserver='localhost';
+\$dbport='3306';
+\$dbtype='mysql';
+PHPEOF
+            echo 'phpMyAdmin configuration completed'
+          else
+            echo 'phpMyAdmin already configured'
+          fi
+
           # Install composer dependencies
           cd /opt/red-legion-website
           sudo -u www-data composer install --no-dev --optimize-autoloader
