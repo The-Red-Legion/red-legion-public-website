@@ -34,6 +34,10 @@ sudo apt-get install -y php8.1 php8.1-fpm php8.1-mysql php8.1-curl php8.1-gd php
 echo "Installing Composer..."
 sudo apt-get install -y composer
 
+echo "Installing phpMyAdmin..."
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y phpmyadmin
+sudo ln -sf /usr/share/phpmyadmin /opt/red-legion-website/public_html/phpmyadmin
+
 # Start services
 echo "Starting services..."
 sudo systemctl enable nginx
