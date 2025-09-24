@@ -38,6 +38,30 @@ echo "Installing phpMyAdmin..."
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y phpmyadmin
 sudo ln -sf /usr/share/phpmyadmin /opt/red-legion-website/public_html/pma
 
+# Configure phpMyAdmin (only if not already configured)
+if [ ! -f /etc/phpmyadmin/config-db.php ]; then
+    echo "Configuring phpMyAdmin for first time..."
+    sudo mysql < /usr/share/phpmyadmin/sql/create_tables.sql
+    sudo mysql -e "CREATE USER IF NOT EXISTS 'pma'@'localhost' IDENTIFIED BY 'pmapassword_change_me';"
+    sudo mysql -e "GRANT SELECT, INSERT, UPDATE, DELETE ON phpmyadmin.* TO 'pma'@'localhost';"
+    sudo mysql -e "FLUSH PRIVILEGES;"
+
+    # Create initial phpMyAdmin config
+    sudo tee /etc/phpmyadmin/config-db.php > /dev/null << 'EOF'
+<?php
+$dbuser='pma';
+$dbpass='pmapassword_change_me';
+$basepath='';
+$dbname='phpmyadmin';
+$dbserver='localhost';
+$dbport='3306';
+$dbtype='mysql';
+EOF
+    echo "⚠️  SECURITY: Change the phpMyAdmin password 'pmapassword_change_me' after deployment!"
+else
+    echo "phpMyAdmin already configured, skipping initial setup..."
+fi
+
 # Start services
 echo "Starting services..."
 sudo systemctl enable nginx

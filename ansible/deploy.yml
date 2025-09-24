@@ -190,15 +190,31 @@
             login_unix_socket: /var/run/mysqld/mysqld.sock
           become_user: root
 
-        - name: Create phpMyAdmin admin user
+        - name: Create phpMyAdmin control user
+          mysql_user:
+            name: "pma"
+            password: "{{ pma_password | default('pmapassword_change_me') }}"
+            priv: "phpmyadmin.*:SELECT,INSERT,UPDATE,DELETE"
+            host: localhost
+            state: present
+            login_unix_socket: /var/run/mysqld/mysqld.sock
+          become_user: root
+
+        - name: Check if admin user exists
+          shell: mysql -e "SELECT COUNT(*) FROM mysql.user WHERE User='admin' AND Host='localhost';" | tail -1
+          register: admin_user_exists
+          become_user: root
+
+        - name: Create phpMyAdmin admin user (only if doesn't exist)
           mysql_user:
             name: "admin"
-            password: "RedLegion2024!"
+            password: "{{ admin_password | default('RedLegion2024!') }}"
             priv: "*.*:ALL,GRANT"
             host: localhost
             state: present
             login_unix_socket: /var/run/mysqld/mysqld.sock
           become_user: root
+          when: admin_user_exists.stdout == "0"
 
       rescue:
         - name: Log database setup warning
@@ -234,7 +250,7 @@
         - name: Create phpMyAdmin symlink in website
           file:
             src: /usr/share/phpmyadmin
-            dest: "{{ app_dir }}/public_html/phpmyadmin"
+            dest: "{{ app_dir }}/public_html/pma"
             state: link
             force: yes
 
@@ -292,6 +308,8 @@
         - { src: "../app/", dest: "{{ app_dir }}/app/" }
         - { src: "../public_html/", dest: "{{ app_dir }}/public_html/" }
         - { src: "../composer.json", dest: "{{ app_dir }}/composer.json" }
+      tags:
+        - copy_files
 
     - name: Set execute permissions on bootstrap.php
       file:
@@ -315,6 +333,8 @@
         no_dev: yes
         optimize_autoloader: yes
       become_user: "{{ web_user }}"
+      tags:
+        - copy_files
 
     - name: Create .env file
       template:
@@ -412,8 +432,7 @@
         echo ""
         echo "Website and phpMyAdmin access:"
         echo "Main site: http://dev.redlegion.gg/"
-        echo "phpMyAdmin: http://dev.redlegion.gg/phpmyadmin"
-        echo "Management portal: http://dev.redlegion.gg/management/"
+        echo "phpMyAdmin: http://dev.redlegion.gg/pma"
         echo ""
         echo "Database credentials:"
         echo "Database: red_legion_website"

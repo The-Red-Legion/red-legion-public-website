@@ -24,61 +24,114 @@ jobs:
       with:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
 
+    - name: Setup Python and Ansible
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install Ansible
+      run: |
+        pip install ansible
+        pip install google-auth
+
     - name: Test SSH connectivity
       run: |
         echo "Testing SSH connection to web server..."
         gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "echo 'SSH connection successful!'" --ssh-flag="-o ConnectTimeout=10"
 
-    - name: Deploy website with simple script
+    - name: Deploy website with direct gcloud commands
       run: |
-        echo "Copying deployment script to server..."
-        gcloud compute scp deploy.sh ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
-
-        echo "Running lightweight deployment..."
-        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "
-          chmod +x /tmp/deploy.sh
-          /tmp/deploy.sh
-          rm -f /tmp/deploy.sh
-        "
-
+        # Copy files to server
         echo "Copying website files to server..."
         gcloud compute scp --recurse public_html ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
         gcloud compute scp --recurse app ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
+        gcloud compute scp --recurse ansible ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
         gcloud compute scp composer.json ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
 
+        # Create environment file locally then copy
         echo "Creating production .env file..."
-        echo "APP_ENV=prod" > /tmp/.env
-        echo "APP_NAME=The Red Legion Public Website" >> /tmp/.env
-        echo "APP_TZ=UTC" >> /tmp/.env
-        echo "" >> /tmp/.env
-        echo "# Discord OAuth Configuration" >> /tmp/.env
-        echo "DISCORD_CLIENT_ID=${{ secrets.DISCORD_CLIENT_ID }}" >> /tmp/.env
-        echo "DISCORD_CLIENT_SECRET=${{ secrets.DISCORD_CLIENT_SECRET }}" >> /tmp/.env
-        echo "DISCORD_REDIRECT_URI=${{ secrets.DISCORD_REDIRECT_URI }}" >> /tmp/.env
-        echo "DISCORD_BOT_TOKEN=${{ secrets.DISCORD_TOKEN }}" >> /tmp/.env
-        echo "" >> /tmp/.env
-        echo "# Red Legion Discord Server ID" >> /tmp/.env
-        echo "RED_LEGION_GUILD_ID=814699481912049704" >> /tmp/.env
+        cat > /tmp/production.env << EOF
+        APP_ENV=prod
+        APP_NAME=The Red Legion Public Website
+        APP_TZ=UTC
 
-        echo "Copying .env file to server..."
-        gcloud compute scp /tmp/.env ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
+        # Database Configuration
+        DB_HOST=127.0.0.1
+        DB_PORT=3306
+        DB_NAME=red_legion_website
+        DB_USER=website_user
+        DB_PASS=temp_password_to_be_changed
 
-        echo "Installing website files..."
+        # Discord OAuth Configuration
+        DISCORD_CLIENT_ID=${{ secrets.DISCORD_CLIENT_ID }}
+        DISCORD_CLIENT_SECRET=${{ secrets.DISCORD_CLIENT_SECRET }}
+        DISCORD_REDIRECT_URI=${{ secrets.DISCORD_REDIRECT_URI }}
+        DISCORD_BOT_TOKEN=${{ secrets.DISCORD_TOKEN }}
+
+        # Red Legion Discord Server ID
+        RED_LEGION_GUILD_ID=814699481912049704
+        EOF
+
+        gcloud compute scp /tmp/production.env ubuntu@arccorp-web-server:/tmp/.env --zone us-central1-a
+
+        # Run Ansible locally on the server
+        echo "Running Ansible deployment on server..."
         gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "
-          sudo cp -r /tmp/public_html/* /opt/red-legion-website/public_html/
+          cd /tmp/ansible
+          sudo apt-get update -qq
+          sudo apt-get install -y ansible python3-pip python3-pymysql
+
+          # Run the Ansible playbook locally
+          ansible-playbook -i localhost, deploy.yml \
+            --connection=local \
+            --become \
+            -e db_name=red_legion_website \
+            -e db_user=website_user \
+            -e db_pass=temp_password_to_be_changed \
+            -e pma_password=pmapassword_change_me \
+            -e admin_password=RedLegion2024! \
+            --skip-tags=copy_files
+
+          # Copy our files manually since we skip that in Ansible
+          sudo rm -rf /opt/red-legion-website/public_html /opt/red-legion-website/app
+          sudo cp -r /tmp/public_html /opt/red-legion-website/
           sudo cp -r /tmp/app /opt/red-legion-website/
           sudo cp /tmp/composer.json /opt/red-legion-website/
-          sudo mv /tmp/.env /opt/red-legion-website/.env
-
+          sudo cp /tmp/.env /opt/red-legion-website/
           sudo chown -R www-data:www-data /opt/red-legion-website
           sudo chmod 600 /opt/red-legion-website/.env
+
+          # Create phpMyAdmin symlink
+          sudo ln -sf /usr/share/phpmyadmin /opt/red-legion-website/public_html/pma
+
+          # Configure phpMyAdmin (only if not already done)
+          if [ ! -f /etc/phpmyadmin/config-db.php ]; then
+            echo 'Setting up phpMyAdmin configuration...'
+            sudo mysql -e 'CREATE DATABASE IF NOT EXISTS phpmyadmin;'
+            sudo mysql phpmyadmin < /usr/share/phpmyadmin/sql/create_tables.sql 2>/dev/null || true
+            sudo mysql -e \"CREATE USER IF NOT EXISTS 'pma'@'localhost' IDENTIFIED BY 'pmapassword_change_me';\"
+            sudo mysql -e \"GRANT SELECT, INSERT, UPDATE, DELETE ON phpmyadmin.* TO 'pma'@'localhost';\"
+            sudo mysql -e \"FLUSH PRIVILEGES;\"
+
+            echo '<?php' | sudo tee /etc/phpmyadmin/config-db.php > /dev/null
+            echo '\$dbuser=\"pma\";' | sudo tee -a /etc/phpmyadmin/config-db.php > /dev/null
+            echo '\$dbpass=\"pmapassword_change_me\";' | sudo tee -a /etc/phpmyadmin/config-db.php > /dev/null
+            echo '\$basepath=\"\";' | sudo tee -a /etc/phpmyadmin/config-db.php > /dev/null
+            echo '\$dbname=\"phpmyadmin\";' | sudo tee -a /etc/phpmyadmin/config-db.php > /dev/null
+            echo '\$dbserver=\"localhost\";' | sudo tee -a /etc/phpmyadmin/config-db.php > /dev/null
+            echo '\$dbport=\"3306\";' | sudo tee -a /etc/phpmyadmin/config-db.php > /dev/null
+            echo '\$dbtype=\"mysql\";' | sudo tee -a /etc/phpmyadmin/config-db.php > /dev/null
+            echo 'phpMyAdmin configuration completed'
+          else
+            echo 'phpMyAdmin already configured'
+          fi
 
           # Install composer dependencies
           cd /opt/red-legion-website
           sudo -u www-data composer install --no-dev --optimize-autoloader
 
           # Clean up temp files
-          rm -rf /tmp/public_html /tmp/app /tmp/composer.json
+          rm -rf /tmp/public_html /tmp/app /tmp/composer.json /tmp/.env /tmp/ansible
         "
 
     - name: Verify deployment
