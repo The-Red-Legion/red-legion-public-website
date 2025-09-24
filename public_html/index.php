@@ -100,15 +100,42 @@ include __DIR__ . '/../app/partials/head-includes.html';
         <main class="main-content" id="main-content">
             <!--page-hero-->
             <section class="bg-dark text-white position-relative overflow-hidden">
-                <!--begin:Video-bg-->
-                <div class="w-100 h-100 opacity-25 position-absolute end-0 top-0 bg-cover bg-no-repeat bg-center"
-                    style="background-image: url('assets/videos/officeloop-cover.jpg');">
 
-		    <div class="jarallax h-100 w-100" data-video-src="https://player.vimeo.com/video/970138220?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp;loop=1"><script src="https://player.vimeo.com/api/player.js" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="The Red Legion"></script>
 
-                    </div>
-                </div>
-                <!--end:Video-bg-->
+        <!--begin:Video-bg-->
+        <div class="w-100 position-absolute end-0 top-0 overflow-hidden opacity-25" style="min-height:60vh; height:100%;">
+
+        <!-- Video background -->
+        <div class="jarallax h-100 w-100"
+            data-jarallax
+            data-jarallax-video="https://vimeo.com/1121338232">
+        </div>
+
+        <!-- Fallback logo OVER the video initially -->
+        <div id="video-fallback"
+            class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+            style="background:#000; z-index:2;">
+            <img src="assets/img/logo/logo.png" alt="Background cover" style="width:50%; height:auto;">
+        </div>
+
+        </div>
+
+        <script>
+        // simplest: fade the overlay after ~1.5s (adjust to taste)
+        document.addEventListener('DOMContentLoaded', function () {
+            const overlay = document.getElementById('video-fallback');
+            if (!overlay) return;
+            setTimeout(function () {
+            overlay.style.transition = 'opacity .4s ease';
+            overlay.style.opacity = '0';
+            overlay.style.pointerEvents = 'none';
+            overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
+            }, 1500);
+        });
+        </script>
+        <!--end:Video-bg-->
+
+
 
                 <!--begin:container-->
                 <div class="container pt-12 pb-12 position-relative z-1">
@@ -280,7 +307,7 @@ include __DIR__ . '/../app/partials/head-includes.html';
 
                                 <!--Shape Image with mask-->
                                 <div class="bg-mask">
-                                    <img src="assets/img/960x900/4.jpg" class="mask-squircle mask-image" alt="">
+                                    <img src="assets/img/maninmoon.png" class="mask-squircle mask-image" alt="">
                                 </div>
                             </div>
                         </div>
