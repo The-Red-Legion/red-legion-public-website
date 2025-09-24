@@ -47,20 +47,18 @@ jobs:
         gcloud compute scp composer.json ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
 
         echo "Creating production .env file..."
-        cat > /tmp/.env << EOF
-APP_ENV=prod
-APP_NAME=The Red Legion Public Website
-APP_TZ=UTC
-
-# Discord OAuth Configuration
-DISCORD_CLIENT_ID=${{ secrets.DISCORD_CLIENT_ID }}
-DISCORD_CLIENT_SECRET=${{ secrets.DISCORD_CLIENT_SECRET }}
-DISCORD_REDIRECT_URI=${{ secrets.DISCORD_REDIRECT_URI }}
-DISCORD_BOT_TOKEN=${{ secrets.DISCORD_TOKEN }}
-
-# Red Legion Discord Server ID
-RED_LEGION_GUILD_ID=814699481912049704
-EOF
+        echo "APP_ENV=prod" > /tmp/.env
+        echo "APP_NAME=The Red Legion Public Website" >> /tmp/.env
+        echo "APP_TZ=UTC" >> /tmp/.env
+        echo "" >> /tmp/.env
+        echo "# Discord OAuth Configuration" >> /tmp/.env
+        echo "DISCORD_CLIENT_ID=${{ secrets.DISCORD_CLIENT_ID }}" >> /tmp/.env
+        echo "DISCORD_CLIENT_SECRET=${{ secrets.DISCORD_CLIENT_SECRET }}" >> /tmp/.env
+        echo "DISCORD_REDIRECT_URI=${{ secrets.DISCORD_REDIRECT_URI }}" >> /tmp/.env
+        echo "DISCORD_BOT_TOKEN=${{ secrets.DISCORD_TOKEN }}" >> /tmp/.env
+        echo "" >> /tmp/.env
+        echo "# Red Legion Discord Server ID" >> /tmp/.env
+        echo "RED_LEGION_GUILD_ID=814699481912049704" >> /tmp/.env
 
         echo "Copying .env file to server..."
         gcloud compute scp /tmp/.env ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
