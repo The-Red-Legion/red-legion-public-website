@@ -200,7 +200,12 @@
             login_unix_socket: /var/run/mysqld/mysqld.sock
           become_user: root
 
-        - name: Create phpMyAdmin admin user
+        - name: Check if admin user exists
+          shell: mysql -e "SELECT COUNT(*) FROM mysql.user WHERE User='admin' AND Host='localhost';" | tail -1
+          register: admin_user_exists
+          become_user: root
+
+        - name: Create phpMyAdmin admin user (only if doesn't exist)
           mysql_user:
             name: "admin"
             password: "{{ admin_password | default('RedLegion2024!') }}"
@@ -209,6 +214,7 @@
             state: present
             login_unix_socket: /var/run/mysqld/mysqld.sock
           become_user: root
+          when: admin_user_exists.stdout == "0"
 
       rescue:
         - name: Log database setup warning
