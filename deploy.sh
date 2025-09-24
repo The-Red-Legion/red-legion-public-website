@@ -36,7 +36,7 @@ sudo apt-get install -y composer
 
 echo "Installing phpMyAdmin..."
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y phpmyadmin
-sudo ln -sf /usr/share/phpmyadmin /opt/red-legion-website/public_html/phpmyadmin
+sudo ln -sf /usr/share/phpmyadmin /opt/red-legion-website/public_html/pma
 
 # Start services
 echo "Starting services..."
