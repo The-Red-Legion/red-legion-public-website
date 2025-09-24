@@ -53,9 +53,9 @@ jobs:
           sudo cp /tmp/composer.json /opt/red-legion-website/
 
           # Create production .env file with Discord OAuth configuration
-          sudo tee /opt/red-legion-website/.env > /dev/null << 'EOF'
+          cat > /tmp/.env << EOF
 APP_ENV=prod
-APP_NAME=\"The Red Legion Public Website\"
+APP_NAME=The Red Legion Public Website
 APP_TZ=UTC
 
 # Discord OAuth Configuration
@@ -67,6 +67,7 @@ DISCORD_BOT_TOKEN=${{ secrets.DISCORD_TOKEN }}
 # Red Legion Discord Server ID
 RED_LEGION_GUILD_ID=814699481912049704
 EOF
+          sudo mv /tmp/.env /opt/red-legion-website/.env
 
           sudo chown -R www-data:www-data /opt/red-legion-website
           sudo chmod 600 /opt/red-legion-website/.env
