@@ -1,3 +1,8 @@
+<?php
+include __DIR__ . '/../app/bootstrap.php';
+include __DIR__ . '/../app/functions.php';
+
+?>
 <!doctype html>
 <html lang="en">
 
@@ -57,172 +62,78 @@
         <main>
            <!--page-hero-->
            <section class="bg-gradient-primary text-white position-relative">
-            <div class="container pt-14 pb-9 pb-lg-12 position-relative z-1">
-                <div class="row pt-lg-5 align-items-center justify-content-center text-center">
-                        <div class="col-lg-10 col-xl-7 z-2">
-                            <div class="position-relative">
-                                <div>
-                                    <h1 class="mb-0 display-4">
-                                        Join The Red Legion
-                                    </h1>
-                                </div>
-                            </div>
+                <div class="container pt-8 pb-6 pb-lg-8 position-relative z-1">
+                    <div class="row pt-lg-4 align-items-center justify-content-center text-center">
+                    <div class="col-lg-10 col-xl-7 z-2">
+                        <div class="position-relative">
+                        <div>
+                            <h1 class="mb-0 display-4">
+                            Join The Red Legion
+                            </h1>
                         </div>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </section>
 
+
+
+
+
+                <!--:::Begin Divider Card-->
+                <section class="position-relative overflow-hidden">
+                <div class="container py-9 py-lg-11">
+                    <div class="card mb-4 overflow-hidden">
+                        <div class="card-header">
+                            <h5 class="mb-0">Step 1: Discord Authentication</h5>
+                        </div>
+                        <div class="card-body">
+                            <!--Content-Section-->
+                            <section class="pb-7 bg-primary position-relative overflow-hidden">
+                                <!--Container-->
+                                <div class="py-3 py-lg-11 container text-white">
+                                    <h6>1. Discord provides secure authentication services for third 
+                                party applications such as ours. In this step, we'll join you to our Discord server and 
+                                we'll collect a minimal amount of information (primarily your Discord ID and Handle) so 
+                                that we know what person matches up with what application.
+
+                                        <!-- Discord Button -->
+                                        <p><br>
+                                        <div class="d-flex justify-content-center">
+                                            <a href="#"
+                                                class="btn btn-discord btn-outline-light d-inline-flex align-items-center">
+                                                <i class="bi bi-discord me-2"></i>
+                                                Authenticate with Discord
+                                            </a>
+                                        </div>
+                                        <!-- End Discord Button -->
+
+
+                                    </h6>
+                                </div>
+                                <!--Section divider-->
+                                <svg class="w-100 position-absolute flip-y start-0 bottom-0" style="color: var(--bs-body-bg);"
+                                    height="48" fill="currentColor" preserveAspectRatio="none" viewBox="0 0 1200 120"
+                                    xmlns="http://www.w3.org/2000/svg" style="transform: rotate(180deg) scaleX(-1);">
+                                    <path d="M0 0v46.29c47.79 22.2 103.59 32.17 158 28 70.36-5.37 136.33-33.31 206.8-37.5 73.84-4.36 147.54
+    16.88 218.2 35.26 69.27 18 138.3 24.88 209.4
+    13.08 36.15-6 69.85-17.84 104.45-29.34C989.49 25 1113-14.29 1200 52.47V0z" opacity=".25" />
+                                    <path d="M0 0v15.81c13 21.11 27.64 41.05 47.69 56.24C99.41 111.27 165 111 224.58 91.58c31.15-10.15
+    60.09-26.07 89.67-39.8 40.92-19 84.73-46 130.83-49.67 36.26-2.85 70.9 9.42 98.6 31.56 31.77 25.39
+    62.32 62 103.63 73 40.44 10.79 81.35-6.69 119.13-24.28s75.16-39 116.92-43.05c59.73-5.85 
+    113.28 22.88 168.9 38.84 30.2 8.66 59 6.17 87.09-7.5 22.43-10.89 48-26.93 60.65-49.24V0z" opacity=".5" />
+                                    <path d="M0 0v5.63C149.93 59 314.09 71.32 475.83 42.57c43-7.64 84.23-20.12 127.61-26.46 59-8.63
+    112.48 12.24 165.56 35.4C827.93 77.22 886 95.24 951.2 90c86.53-7 172.46-45.71 248.8-84.81V0z" />
+                                </svg>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+                </section>
+                <!--:::/End Divider Card-->
 
             
-            <section class="position-relative overflow-hidden">
-                <div class="container py-9 py-lg-11">
-                    <h5 class="mb-7">Steps Default</h5>
-                    <!--Steps default start-->
-                    <div class="bs-stepper" id="stepperDemo">
-                        <!--Stepper header start-->
-                        <div class="bs-stepper-header pb-3 align-items-start align-items-md-center flex-md-row flex-column p-0"
-                            role="tablist">
-                            <!--Step-Header-item-->
-                            <div class="step active" data-target="#stepper-step-1">
-                                <button type="button" class="step-trigger ps-0 py-2 flex-nowrap" role="tab"
-                                    id="stepperDemotrigger1" aria-controls="stepper-step-1" aria-selected="true">
-                                    <span class="bs-stepper-circle rounded-2">
-                                        <i class="bi bi-person"></i>
-                                    </span>
-                                    <span
-                                        class="flex-grow-1 flex-wrap d-flex flex-column jusitfy-content-start text-start">
-                                        <span class="bs-stepper-label h6 m-0">Account Details</span>
-                                        <small class="opacity-75">Setup account details</small>
-                                    </span>
-                                </button>
-                            </div>
-                            <!--Divider line-->
-                            <div class="step-line d-none d-md-block">
-                                <i class='bi bi-chevron-double-right'></i>
-                            </div>
-                            <!--Step-Header-item-->
-                            <div class="step" data-target="#stepper-step-2">
-                                <button type="button" class="step-trigger py-2 ps-0 ps-md-2 flex-nowrap" role="tab"
-                                    id="stepperDemotrigger2" aria-controls="stepper-step-2" aria-selected="false">
-                                    <span class="bs-stepper-circle rounded-2">
-                                        <i class="bi bi-geo-alt"></i>
-                                    </span>
-                                    <span
-                                        class="flex-grow-1 flex-wrap d-flex flex-column jusitfy-content-start text-start">
-                                        <span class="bs-stepper-label h6 m-0">Address & Payments</span>
-                                        <small class="opacity-75">Add address & payment methods</small>
-                                    </span>
-                                </button>
-                            </div>
-                            <!--Divider line-->
-                            <div class="step-line d-none d-md-block">
-                                <i class='bi bi-chevron-double-right'></i>
-                            </div>
-                            <!--Step-Header-item-->
-                            <div class="step" data-target="#stepper-step-3">
-                                <button type="button" class="step-trigger py-2 ps-0 ps-md-2 flex-nowrap" role="tab"
-                                    id="stepperDemotrigger3" aria-controls="stepper-step-3" aria-selected="false">
-                                    <span class="bs-stepper-circle rounded-2">
-                                        <i class="bi bi-link-45deg"></i>
-                                    </span>
-                                    <span
-                                        class="flex-grow-1 flex-wrap d-flex flex-column jusitfy-content-start text-start">
-                                        <span class="bs-stepper-label h6 m-0">Social Links</span>
-                                        <small class="opacity-75">Add social links</small>
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-                        <!--Stepper header end-->
-
-                        <!--Stepper content start-->
-                        <div class="bs-stepper-content p-0">
-                            <div class="card card-body h-100">
-                                <form class="h-100 d-flex flex-column" action="#">
-
-                                    <!--Step-1-->
-                                    <div id="stepper-step-1" class="content h-100" aria-labelledby="stepper-step-1">
-                                        <div class="d-flex flex-column h-100">
-                                            <!--Step Title-->
-                                            <div class="flex-shrink-0 pb-3 border-bottom">
-                                                <h6 class="mb-1">Account Details</h6>
-                                                <p class="text-body-secondary small mb-0">Add Account Details</p>
-                                            </div>
-
-                                            <!--Step main content-->
-                                            <div class="flex-grow-1 py-4">
-                                                Add Account Details
-                                            </div>
-                                            <!--Step footer-->
-                                            <div class="d-flex border-top pt-3 justify-content-end">
-                                                <button type="button" class="btn btn-primary" onclick="stepDemo.next()">
-                                                    Save & Next <i class="bi bi-arrow-right"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!--Step-2-->
-                                    <div id="stepper-step-2" class="content h-100" aria-labelledby="stepper-step-2">
-                                        <div class="d-flex flex-column h-100">
-                                            <!--Step Title-->
-                                            <div class="flex-shrink-0 pb-3 border-bottom">
-                                                <h6 class="mb-1">Address & Paymnets</h6>
-                                                <p class="text-body-secondary small mb-0">Add address & paymnet method</p>
-                                            </div>
-                                            <!--Step main content-->
-                                            <div class="flex-grow-1 py-4">
-                                                Add address & paymnet method
-                                            </div>
-                                            <!--Step footer-->
-                                            <div class="d-flex border-top pt-3 justify-content-between">
-                                                <button type="button" class="btn btn-secondary"
-                                                    onclick="stepDemo.previous()">
-                                                    <i class="bi bi-arrow-left"></i> Back
-                                                </button>
-                                                <button type="button" class="btn btn-primary" onclick="stepDemo.next()">
-                                                    Save & Next <i class="bi bi-arrow-right"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--Step-3-->
-                                    <div id="stepper-step-3" class="content h-100" aria-labelledby="stepper-step-3">
-                                        <div class="d-flex h-100 flex-column">
-
-                                            <!--Step Title-->
-                                            <div class="flex-shrink-0 pb-3 border-bottom">
-                                                <h6 class="mb-1">Social Links
-                                                </h6>
-                                                <p class="text-body-secondary small mb-0"> Add social links
-                                                </p>
-                                            </div>
-                                            <!--Step main content-->
-                                            <div class="flex-grow-1 py-4">
-                                                Add social links
-                                            </div>
-
-                                            <!--Step footer-->
-                                            <div class="d-flex pt-3 border-top justify-content-between">
-                                                <button type="button" class="btn btn-secondary"
-                                                    onclick="stepDemo.previous()">
-                                                    <i class="bi bi-arrow-left"></i> Back
-                                                </button>
-                                                <button type="submit" class="btn btn-primary">
-                                                    Submit <i class="bi bi-send ms-2"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <!--Stepper content end-->
-                    </div>
-                </div>
-            </section>
-
-
             
         </main>
 
@@ -238,47 +149,6 @@
         </a>
         <!-- scripts -->
         <script src="assets/js/theme.bundle.min.js"></script>
-        <!--Form steps script-->
-        <script src="assets/vendor/node_modules/js/bs-stepper.min.js"></script>
-        <script>
-            var stepDemo = new Stepper(document.querySelector('#stepperDemo'));
-            stepDemo.next();
-            stepDemo.previous()
-
-            //Vertical Steps
-            var stepDemoVertical = new Stepper(document.querySelector('#stepperDemoVertical'));
-            stepDemoVertical.next();
-            stepDemoVertical.previous()
-
-        </script>
-
-
-        <!--Copy to clipboard + prismJs-->
-        <script src="assets/vendor/node_modules/js/prism.js"></script>
-        <script src="assets/vendor/node_modules/js/clipboard.min.js"></script>
-        <script>
-            /* Clipboard JS - Copy code button */
-            var cl = document.querySelector('.copy-link');
-            if (typeof !!cl && (cl) != 'undefined' && cl != null) {
-                var cle = document.querySelectorAll('.copy-link');
-                cle.forEach(el => {
-                    el.addEventListener("click", function () {
-                        var theButton = this;
-                        var copyId = this.getAttribute('id');
-                        var clipboard = new ClipboardJS('#' + copyId);
-
-                        clipboard.on('success', function (e) {
-                            e.clearSelection();
-                            theButton.innerHTML = 'Copied!';
-                            setTimeout(function () {
-                                theButton.innerHTML = 'Copy code';
-                            }, 5000);
-                        });
-                    });
-                });
-            }
-
-        </script>
     </body>
 
 </html>

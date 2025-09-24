@@ -3,16 +3,11 @@ declare(strict_types=1);
 
 /**
  * Application bootstrap file
- * - Loads Composer autoloader
  * - Starts secure sessions
  * - Loads environment variables (from .env in dev)
- * - Configures Twig templating
  * - Establishes PDO database connection
  * - Sets some typical defaults (error handling, timezone)
  */
-
-// 1. Composer autoload
-require __DIR__ . '/../vendor/autoload.php';
 
 // 2. Session setup (with secure defaults)
 if (session_status() === PHP_SESSION_NONE) {
@@ -35,21 +30,8 @@ if (file_exists(__DIR__ . '/../.env')) {
 }
 $env = $_ENV + $_SERVER; // Apache mod_php sometimes populates $_SERVER
 
-// 5. Twig setup
-$loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/views');
-
-$twig = new \Twig\Environment($loader, [
-    'cache'        => __DIR__ . '/cache',
-    'auto_reload'  => ($env['APP_ENV'] ?? 'prod') !== 'prod',
-    'debug'        => ($env['APP_ENV'] ?? 'prod') !== 'prod',
-]);
-
-if (($env['APP_ENV'] ?? 'prod') !== 'prod') {
-    $twig->addExtension(new \Twig\Extension\DebugExtension());
-}
-$twig->addGlobal('app_name', $env['APP_NAME'] ?? 'My App');
-
-// 6. PDO database connection (strict + flexible)
+/*
+// 5. PDO database connection (strict + flexible)
 $require = function (array $keys, array $env): void {
     foreach ($keys as $k) {
         // allow DB_PASS to be empty string but still "set"
@@ -119,11 +101,10 @@ try {
     // Dev: show the actual error to help diagnose
     die('Database connection failed: ' . $e->getMessage());
 }
-
+*/
 
 // 7. Return useful objects to entry points
 return [
-    'twig' => $twig,
     'pdo'  => $pdo,
     'env'  => $env,
 ];
