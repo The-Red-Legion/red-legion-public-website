@@ -101,6 +101,9 @@ jobs:
           sudo chown -R www-data:www-data /opt/red-legion-website
           sudo chmod 600 /opt/red-legion-website/.env
 
+          # Create phpMyAdmin symlink
+          sudo ln -sf /usr/share/phpmyadmin /opt/red-legion-website/public_html/pma
+
           # Install composer dependencies
           cd /opt/red-legion-website
           sudo -u www-data composer install --no-dev --optimize-autoloader
