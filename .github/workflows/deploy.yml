@@ -113,16 +113,14 @@ jobs:
             sudo mysql -e \"GRANT SELECT, INSERT, UPDATE, DELETE ON phpmyadmin.* TO 'pma'@'localhost';\"
             sudo mysql -e \"FLUSH PRIVILEGES;\"
 
-            sudo bash -c \"cat > /etc/phpmyadmin/config-db.php << 'PHPEOF'
-<?php
-\\\$dbuser='pma';
-\\\$dbpass='pmapassword_change_me';
-\\\$basepath='';
-\\\$dbname='phpmyadmin';
-\\\$dbserver='localhost';
-\\\$dbport='3306';
-\\\$dbtype='mysql';
-PHPEOF\"
+            echo '<?php' | sudo tee /etc/phpmyadmin/config-db.php > /dev/null
+            echo '\$dbuser=\"pma\";' | sudo tee -a /etc/phpmyadmin/config-db.php > /dev/null
+            echo '\$dbpass=\"pmapassword_change_me\";' | sudo tee -a /etc/phpmyadmin/config-db.php > /dev/null
+            echo '\$basepath=\"\";' | sudo tee -a /etc/phpmyadmin/config-db.php > /dev/null
+            echo '\$dbname=\"phpmyadmin\";' | sudo tee -a /etc/phpmyadmin/config-db.php > /dev/null
+            echo '\$dbserver=\"localhost\";' | sudo tee -a /etc/phpmyadmin/config-db.php > /dev/null
+            echo '\$dbport=\"3306\";' | sudo tee -a /etc/phpmyadmin/config-db.php > /dev/null
+            echo '\$dbtype=\"mysql\";' | sudo tee -a /etc/phpmyadmin/config-db.php > /dev/null
             echo 'phpMyAdmin configuration completed'
           else
             echo 'phpMyAdmin already configured'
