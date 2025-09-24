@@ -51,7 +51,25 @@ jobs:
           sudo cp -r /tmp/public_html/* /opt/red-legion-website/public_html/
           sudo cp -r /tmp/app /opt/red-legion-website/
           sudo cp /tmp/composer.json /opt/red-legion-website/
+
+          # Create production .env file with Discord OAuth configuration
+          sudo tee /opt/red-legion-website/.env > /dev/null << 'EOF'
+APP_ENV=prod
+APP_NAME=\"The Red Legion Public Website\"
+APP_TZ=UTC
+
+# Discord OAuth Configuration
+DISCORD_CLIENT_ID=${{ secrets.DISCORD_CLIENT_ID }}
+DISCORD_CLIENT_SECRET=${{ secrets.DISCORD_CLIENT_SECRET }}
+DISCORD_REDIRECT_URI=${{ secrets.DISCORD_REDIRECT_URI }}
+DISCORD_BOT_TOKEN=${{ secrets.DISCORD_TOKEN }}
+
+# Red Legion Discord Server ID
+RED_LEGION_GUILD_ID=814699481912049704
+EOF
+
           sudo chown -R www-data:www-data /opt/red-legion-website
+          sudo chmod 600 /opt/red-legion-website/.env
 
           # Install composer dependencies
           cd /opt/red-legion-website
