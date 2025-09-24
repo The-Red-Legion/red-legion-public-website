@@ -28,17 +28,9 @@ server {
         application/atom+xml
         image/svg+xml;
 
-    # Proxy management portal requests to separate server
-    location /mgmt/ {
-        proxy_pass http://10.128.0.4:8000/;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-
+    # Redirect management portal to external server
     location /mgmt {
-        return 301 /mgmt/;
+        return 301 http://34.55.83.147:8000/;
     }
 
     # Main site PHP processing
