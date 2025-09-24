@@ -28,6 +28,20 @@ server {
         application/atom+xml
         image/svg+xml;
 
+    # Proxy management portal requests
+    location /mgmt/ {
+        proxy_pass http://10.128.0.4:8000/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Prefix /mgmt;
+    }
+
+    location /mgmt {
+        return 301 /mgmt/;
+    }
+
     # Main site PHP processing
     location / {
         try_files $uri $uri/ /index.php?$query_string;
