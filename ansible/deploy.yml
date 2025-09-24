@@ -302,6 +302,8 @@
         - { src: "../app/", dest: "{{ app_dir }}/app/" }
         - { src: "../public_html/", dest: "{{ app_dir }}/public_html/" }
         - { src: "../composer.json", dest: "{{ app_dir }}/composer.json" }
+      tags:
+        - copy_files
 
     - name: Set execute permissions on bootstrap.php
       file:
@@ -325,6 +327,8 @@
         no_dev: yes
         optimize_autoloader: yes
       become_user: "{{ web_user }}"
+      tags:
+        - copy_files
 
     - name: Create .env file
       template:

@@ -39,29 +39,75 @@ jobs:
         echo "Testing SSH connection to web server..."
         gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "echo 'SSH connection successful!'" --ssh-flag="-o ConnectTimeout=10"
 
-    - name: Create gcloud SSH wrapper
+    - name: Deploy website with direct gcloud commands
       run: |
-        cat > gcloud-ssh-wrapper.sh << 'EOF'
-        #!/bin/bash
-        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --ssh-flag="-o StrictHostKeyChecking=no" -- "$@"
-        EOF
-        chmod +x gcloud-ssh-wrapper.sh
+        # Copy files to server
+        echo "Copying website files to server..."
+        gcloud compute scp --recurse public_html ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
+        gcloud compute scp --recurse app ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
+        gcloud compute scp --recurse ansible ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
+        gcloud compute scp composer.json ubuntu@arccorp-web-server:/tmp/ --zone us-central1-a
 
-    - name: Deploy website with Ansible
-      run: |
-        export ANSIBLE_SSH_EXECUTABLE=$(pwd)/gcloud-ssh-wrapper.sh
-        cd ansible
-        ansible-playbook -i inventory.ini deploy.yml \
-          -e db_name=red_legion_website \
-          -e db_user=website_user \
-          -e db_pass=temp_password_to_be_changed \
-          -e discord_client_id="${{ secrets.DISCORD_CLIENT_ID }}" \
-          -e discord_client_secret="${{ secrets.DISCORD_CLIENT_SECRET }}" \
-          -e discord_redirect_uri="${{ secrets.DISCORD_REDIRECT_URI }}" \
-          -e discord_bot_token="${{ secrets.DISCORD_TOKEN }}" \
-          -e pma_password=pmapassword_change_me \
-          -e admin_password=RedLegion2024! \
-          --ssh-extra-args="-o StrictHostKeyChecking=no"
+        # Create environment file locally then copy
+        echo "Creating production .env file..."
+        cat > /tmp/production.env << EOF
+        APP_ENV=prod
+        APP_NAME=The Red Legion Public Website
+        APP_TZ=UTC
+
+        # Database Configuration
+        DB_HOST=127.0.0.1
+        DB_PORT=3306
+        DB_NAME=red_legion_website
+        DB_USER=website_user
+        DB_PASS=temp_password_to_be_changed
+
+        # Discord OAuth Configuration
+        DISCORD_CLIENT_ID=${{ secrets.DISCORD_CLIENT_ID }}
+        DISCORD_CLIENT_SECRET=${{ secrets.DISCORD_CLIENT_SECRET }}
+        DISCORD_REDIRECT_URI=${{ secrets.DISCORD_REDIRECT_URI }}
+        DISCORD_BOT_TOKEN=${{ secrets.DISCORD_TOKEN }}
+
+        # Red Legion Discord Server ID
+        RED_LEGION_GUILD_ID=814699481912049704
+        EOF
+
+        gcloud compute scp /tmp/production.env ubuntu@arccorp-web-server:/tmp/.env --zone us-central1-a
+
+        # Run Ansible locally on the server
+        echo "Running Ansible deployment on server..."
+        gcloud compute ssh ubuntu@arccorp-web-server --zone us-central1-a --command "
+          cd /tmp/ansible
+          sudo apt-get update -qq
+          sudo apt-get install -y ansible python3-pip python3-pymysql
+
+          # Run the Ansible playbook locally
+          ansible-playbook -i localhost, deploy.yml \
+            --connection=local \
+            --become \
+            -e db_name=red_legion_website \
+            -e db_user=website_user \
+            -e db_pass=temp_password_to_be_changed \
+            -e pma_password=pmapassword_change_me \
+            -e admin_password=RedLegion2024! \
+            --skip-tags=copy_files
+
+          # Copy our files manually since we skip that in Ansible
+          sudo rm -rf /opt/red-legion-website/public_html /opt/red-legion-website/app
+          sudo cp -r /tmp/public_html /opt/red-legion-website/
+          sudo cp -r /tmp/app /opt/red-legion-website/
+          sudo cp /tmp/composer.json /opt/red-legion-website/
+          sudo cp /tmp/.env /opt/red-legion-website/
+          sudo chown -R www-data:www-data /opt/red-legion-website
+          sudo chmod 600 /opt/red-legion-website/.env
+
+          # Install composer dependencies
+          cd /opt/red-legion-website
+          sudo -u www-data composer install --no-dev --optimize-autoloader
+
+          # Clean up temp files
+          rm -rf /tmp/public_html /tmp/app /tmp/composer.json /tmp/.env /tmp/ansible
+        "
 
     - name: Verify deployment
       run: |
