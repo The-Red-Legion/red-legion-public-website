@@ -49,7 +49,7 @@ jobs:
 
     - name: Deploy website with Ansible
       run: |
-        export ANSIBLE_SSH_EXECUTABLE=./gcloud-ssh-wrapper.sh
+        export ANSIBLE_SSH_EXECUTABLE=$(pwd)/gcloud-ssh-wrapper.sh
         cd ansible
         ansible-playbook -i inventory.ini deploy.yml \
           -e db_name=red_legion_website \
