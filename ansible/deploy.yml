@@ -433,7 +433,6 @@
         echo "Website and phpMyAdmin access:"
         echo "Main site: http://dev.redlegion.gg/"
         echo "phpMyAdmin: http://dev.redlegion.gg/pma"
-        echo "Management portal: http://dev.redlegion.gg/management/"
         echo ""
         echo "Database credentials:"
         echo "Database: red_legion_website"
