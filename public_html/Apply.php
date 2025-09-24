@@ -1,8 +1,14 @@
 <?php
 include __DIR__ . '/../app/bootstrap.php';
+include __DIR__ . '/../app/discord.php';
 include __DIR__ . '/../app/functions.php';
 
+//Set the redirect URL based on environment.
+$redirect_url = getApplyURI();
+
+$auth_url = url($_ENV['DISCORD_CLIENT_ID'], $redirect_url, $_ENV['DISCORD_APPLY_SCOPES']);
 ?>
+
 <!doctype html>
 <html lang="en">
 
@@ -101,7 +107,7 @@ include __DIR__ . '/../app/functions.php';
                                         <!-- Discord Button -->
                                         <p><br>
                                         <div class="d-flex justify-content-center">
-                                            <a href="#"
+                                            <a href="<?php echo $auth_url; ?>"
                                                 class="btn btn-discord btn-outline-light d-inline-flex align-items-center">
                                                 <i class="bi bi-discord me-2"></i>
                                                 Authenticate with Discord

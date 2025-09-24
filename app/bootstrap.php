@@ -139,6 +139,10 @@ try {
     die('Database connection failed: ' . $e->getMessage());
 }
 
+unset($_ENV['DB_PASS'], $_ENV['DB_HOST'], $_ENV['DB_NAME'], $_ENV['DB_HOST'], $_ENV['DB_USER']); // remove sensitive info
+unset($env['DB_PASS'], $env['DB_HOST'], $env['DB_NAME'], $env['DB_HOST'], $env['DB_USER']); // remove sensitive info
+unset($_SERVER['DB_PASS'], $_SERVER['DB_HOST'], $_SERVER['DB_NAME'], $_SERVER['DB_HOST'], $_SERVER['DB_USER']); // remove sensitive info
+
 // 5) Return useful objects to entry points
 return [
     'pdo' => $pdo,
