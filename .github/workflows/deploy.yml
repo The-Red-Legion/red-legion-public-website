@@ -113,16 +113,16 @@ jobs:
             sudo mysql -e \"GRANT SELECT, INSERT, UPDATE, DELETE ON phpmyadmin.* TO 'pma'@'localhost';\"
             sudo mysql -e \"FLUSH PRIVILEGES;\"
 
-            sudo tee /etc/phpmyadmin/config-db.php > /dev/null << 'PHPEOF'
+            sudo bash -c \"cat > /etc/phpmyadmin/config-db.php << 'PHPEOF'
 <?php
-\$dbuser='pma';
-\$dbpass='pmapassword_change_me';
-\$basepath='';
-\$dbname='phpmyadmin';
-\$dbserver='localhost';
-\$dbport='3306';
-\$dbtype='mysql';
-PHPEOF
+\\\$dbuser='pma';
+\\\$dbpass='pmapassword_change_me';
+\\\$basepath='';
+\\\$dbname='phpmyadmin';
+\\\$dbserver='localhost';
+\\\$dbport='3306';
+\\\$dbtype='mysql';
+PHPEOF\"
             echo 'phpMyAdmin configuration completed'
           else
             echo 'phpMyAdmin already configured'
