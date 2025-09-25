@@ -58,48 +58,4 @@ function d($display)
 
                 echo '</pre><font color="red">**END**</font>';
         }
-<<<<<<< HEAD
-}
-
-# A function to redirect user.
-function redirect($url)
-{
-    if (!headers_sent())
-    {
-        header('Location: '.$url);
-        exit;
-        }
-    else
-        {
-        echo '<script type="text/javascript">';
-        echo 'window.location.href="'.$url.'";';
-        echo '</script>';
-        echo '<noscript>';
-        echo '<meta http-equiv="refresh" content="0;url='.$url.'" />';
-        echo '</noscript>';
-        exit;
-    }
-}
-
-function getApplyURI()
-{
-        //Set the redirect URL based on environment.
-        switch($_ENV['APP_ENV'])
-        {
-        case 'prod':
-                $redirect_url = $_ENV['DISCORD_APPLY_REDIRECT_PROD'];
-                break;
-        case 'dev':
-                $redirect_url = $_ENV['DISCORD_APPLY_REDIRECT_DEV'];
-                break;
-        case 'local':
-                $redirect_url = $_ENV['DISCORD_APPLY_REDIRECT_LOCAL'];
-                break;
-        default:
-                die('Invalid APP_ENV value. Must be one of: local, dev, prod.');
-        }
-
-        return $redirect_url;
-=======
->>>>>>> 30694360d22941e0e6daa9da827c682f852365ac
 }
