@@ -4,7 +4,7 @@
  * @author : Tealstone
  */
 
-// d()
+// d() 
 //
 // Show debug information only to people in the $_DEBUG_USERS array.
 // Accepts any type of variable, including arrays and objects.
