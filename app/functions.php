@@ -58,6 +58,7 @@ function d($display)
 
                 echo '</pre><font color="red">**END**</font>';
         }
+<<<<<<< HEAD
 }
 
 # A function to redirect user.
@@ -99,4 +100,6 @@ function getApplyURI()
         }
 
         return $redirect_url;
+=======
+>>>>>>> 30694360d22941e0e6daa9da827c682f852365ac
 }

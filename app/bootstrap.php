@@ -3,43 +3,13 @@ declare(strict_types=1);
 
 /**
  * Application bootstrap file
- * - Loads Composer autoloader
- * - Loads environment variables (from .env in dev)
  * - Starts secure sessions
+ * - Loads environment variables (from .env in dev)
  * - Establishes PDO database connection
  * - Sets some typical defaults (error handling, timezone)
  */
 
-// 0) Composer autoload
-$autoloadPath = __DIR__ . '/../vendor/autoload.php';
-if (!is_file($autoloadPath)) {
-    throw new RuntimeException("Composer autoload not found at {$autoloadPath}. Did you run `composer install`?");
-}
-require $autoloadPath;
-
-// 1) Load environment variables BEFORE using $_ENV
-$projectRoot = dirname(__DIR__ . '/app'); // one level up from /bootstrap
-$envPath     = $projectRoot . '/.env';
-
-if (is_file($envPath)) {
-    // safeLoad() won’t overwrite existing server vars; enough for most deployments
-    $dotenv = Dotenv\Dotenv::createImmutable($projectRoot);
-    $dotenv->safeLoad();
-}
-
-// Merge a read-only snapshot for convenience (env wins over server)
-$env = array_merge($_SERVER, $_ENV);
-
-// 2) Error reporting & timezone (now that env is loaded)
-$envApp = $env['APP_ENV'] ?? 'prod';
-$isProd = ($envApp === 'prod');
-
-error_reporting(E_ALL);
-ini_set('display_errors', $isProd ? '0' : '1');
-
-date_default_timezone_set($env['APP_TZ'] ?? 'UTC');
-
-// 3) Session setup (with secure defaults)
+// 2. Session setup (with secure defaults)
 if (session_status() === PHP_SESSION_NONE) {
     // Robust HTTPS detection
     $isHttps = (
@@ -49,17 +19,27 @@ if (session_status() === PHP_SESSION_NONE) {
     );
 
     session_start([
-        'cookie_httponly' => true,          // prevent JS from reading session cookie
-        'cookie_secure'   => $isHttps,      // only over HTTPS
-        'cookie_samesite' => 'Lax',         // mitigate CSRF
-        'use_strict_mode' => 1,             // mitigates fixation
-        // You can set a custom name if you like:
-        // 'name' => 'TRLSESSID',
+        'cookie_httponly' => true,    // prevent JS from reading session cookie
+        'cookie_secure'   => isset($_SERVER['HTTPS']), // only over HTTPS
+        'cookie_samesite' => 'Lax',   // mitigate CSRF
     ]);
 }
 
-// 4) PDO database connection (strict + flexible)
-$require = function (array $keys, array $envVars): void {
+// 3. Error reporting & timezone
+error_reporting(E_ALL);
+ini_set('display_errors', ($_ENV['APP_ENV'] ?? 'prod') !== 'prod' ? '1' : '0');
+date_default_timezone_set($_ENV['APP_TZ'] ?? 'UTC');
+
+// 4. Load environment variables
+if (file_exists(__DIR__ . '/../.env')) {
+    $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+    $dotenv->safeLoad();
+}
+$env = $_ENV + $_SERVER; // Apache mod_php sometimes populates $_SERVER
+
+/*
+// 5. PDO database connection (strict + flexible)
+$require = function (array $keys, array $env): void {
     foreach ($keys as $k) {
         // allow DB_PASS to be empty string but still "set"
         if (!array_key_exists($k, $envVars) || ($k !== 'DB_PASS' && trim((string)$envVars[$k]) === '')) {
@@ -138,13 +118,10 @@ try {
     http_response_code(500);
     die('Database connection failed: ' . $e->getMessage());
 }
-
-unset($_ENV['DB_PASS'], $_ENV['DB_HOST'], $_ENV['DB_NAME'], $_ENV['DB_HOST'], $_ENV['DB_USER']); // remove sensitive info
-unset($env['DB_PASS'], $env['DB_HOST'], $env['DB_NAME'], $env['DB_HOST'], $env['DB_USER']); // remove sensitive info
-unset($_SERVER['DB_PASS'], $_SERVER['DB_HOST'], $_SERVER['DB_NAME'], $_SERVER['DB_HOST'], $_SERVER['DB_USER']); // remove sensitive info
+*/
 
 // 5) Return useful objects to entry points
 return [
-    'pdo' => $pdo,
-    'env' => $env, // merged snapshot
+    'pdo'  => $pdo,
+    'env'  => $env,
 ];
